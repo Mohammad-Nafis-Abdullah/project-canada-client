@@ -55,5 +55,11 @@ export const theme = createTheme({
     ]
   },
 
-  components: {}
+  components: {
+    Button: {
+      defaultProps: {
+        color: "primary"
+      }
+    }
+  }
 });

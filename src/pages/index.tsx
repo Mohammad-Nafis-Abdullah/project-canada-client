@@ -1,7 +1,6 @@
-import { Box, Button, Flex } from "@mantine/core";
 import { Inter } from "next/font/google";
-import { Header } from "~/components/Header";
-import TopSlider from "~/features/banner/Slider";
+import TopSlider from "~/features/home/banner/Slider";
+import { Header } from "~/features/home/navbar/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 

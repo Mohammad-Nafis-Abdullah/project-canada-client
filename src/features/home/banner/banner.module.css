@@ -1,0 +1,7 @@
+.container {
+  height: calc(100vh - rem(100px));
+
+  @media (max-width: $mantine-breakpoint-xl) {
+    height: 100%;
+  }
+}
