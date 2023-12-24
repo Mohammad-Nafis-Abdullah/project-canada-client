@@ -1,13 +1,9 @@
-import { Box, Button } from "@mantine/core";
+import { Box, Button, Flex } from "@mantine/core";
 import { Inter } from "next/font/google";
+import { Header } from "~/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  return (
-    <div>
-      <h1 className="bg-red-600">Hello world!</h1>
-      <Button color="red">send me</Button>
-    </div>
-  );
+  return <Header />;
 }
