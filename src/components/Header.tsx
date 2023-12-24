@@ -25,9 +25,13 @@ import {
   IconCode,
   IconCoin,
   IconFingerprint,
-  IconNotification
+  IconNotification,
+  IconPlus
 } from "@tabler/icons-react";
 import classes from "./layout.module.css";
+import AppLogo from "~/assets/AppLogo";
+import { MENUS_SCHEMA, Navbar_data } from "~/assets/navItems";
+import Link from "next/link";
 
 const mockdata = [
   {
@@ -93,76 +97,12 @@ export function Header() {
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <div className="inline-flex items-center gap-3">
-            <img src="/images/logo.png" alt="logo" className="w-10" />
-            <span className="flex flex-col">
-              <span className="font-bold">Quick Startup</span>
-              <span className="uppercase tracking-[0.2em] text-xs">
-                business registry inc.
-              </span>
-            </span>
-          </div>
+          <AppLogo />
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="#" className={classes.link}>
-              Home
-            </a>
-            <HoverCard
-              width={600}
-              position="bottom"
-              radius="md"
-              shadow="md"
-              withinPortal
-            >
-              <HoverCard.Target>
-                <a href="#" className={classes.link}>
-                  <Center inline>
-                    <Box component="span" mr={5}>
-                      Features
-                    </Box>
-                    <IconChevronDown
-                      style={{ width: rem(16), height: rem(16) }}
-                      color={theme.colors.blue[6]}
-                    />
-                  </Center>
-                </a>
-              </HoverCard.Target>
-
-              <HoverCard.Dropdown style={{ overflow: "hidden" }}>
-                <Group justify="space-between" px="md">
-                  <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
-                    View all
-                  </Anchor>
-                </Group>
-
-                <Divider my="sm" />
-
-                <SimpleGrid cols={2} spacing={0}>
-                  {links}
-                </SimpleGrid>
-
-                <div className={classes.dropdownFooter}>
-                  <Group justify="space-between">
-                    <div>
-                      <Text fw={500} fz="sm">
-                        Get started
-                      </Text>
-                      <Text size="xs" c="dimmed">
-                        Their food sources have decreased, and their numbers
-                      </Text>
-                    </div>
-                    <Button variant="default">Get started</Button>
-                  </Group>
-                </div>
-              </HoverCard.Dropdown>
-            </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
+            {Navbar_data.map((item) => (
+              <NavItem key={item.name} item={item} />
+            ))}
           </Group>
 
           <Group visibleFrom="sm">
@@ -225,3 +165,47 @@ export function Header() {
     </Box>
   );
 }
+
+export const NavItem = ({ item }: { item: MENUS_SCHEMA }) => {
+  const theme = useMantineTheme();
+
+  return (
+    <HoverCard
+      width={450}
+      position="bottom"
+      radius="md"
+      shadow="md"
+      withinPortal
+    >
+      <HoverCard.Target>
+        <Link href={item.url} className={classes.link}>
+          <Center inline>
+            <Box component="span" mr={5}>
+              {item.name}
+            </Box>
+            {item.children.length ? (
+              <IconChevronDown
+                style={{ width: rem(16), height: rem(16) }}
+                color={theme.colors.blue[6]}
+              />
+            ) : (
+              <></>
+            )}
+          </Center>
+        </Link>
+      </HoverCard.Target>
+
+      {item.children.length > 0 ? (
+        <HoverCard.Dropdown style={{ overflow: "hidden" }}>
+          <SimpleGrid cols={2} spacing="sm">
+            {item.children.map((sub) => (
+              <NavItem key={sub.name} item={sub} />
+            ))}
+          </SimpleGrid>
+        </HoverCard.Dropdown>
+      ) : (
+        <></>
+      )}
+    </HoverCard>
+  );
+};
