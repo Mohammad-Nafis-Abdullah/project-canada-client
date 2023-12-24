@@ -1,31 +1,31 @@
 import {
-  HoverCard,
-  Group,
-  Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
   Anchor,
-  Divider,
-  Center,
   Box,
   Burger,
-  Drawer,
+  Button,
+  Center,
   Collapse,
+  Divider,
+  Drawer,
+  Group,
+  HoverCard,
   ScrollArea,
+  SimpleGrid,
+  Text,
+  ThemeIcon,
+  UnstyledButton,
   rem,
   useMantineTheme
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  IconNotification,
-  IconCode,
   IconBook,
   IconChartPie3,
-  IconFingerprint,
+  IconChevronDown,
+  IconCode,
   IconCoin,
-  IconChevronDown
+  IconFingerprint,
+  IconNotification
 } from "@tabler/icons-react";
 import classes from "./layout.module.css";
 
@@ -90,10 +90,18 @@ export function Header() {
   ));
 
   return (
-    <Box pb={120}>
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <h4>Logo</h4>
+          <div className="inline-flex items-center gap-3">
+            <img src="/images/logo.png" alt="logo" className="w-10" />
+            <span className="flex flex-col">
+              <span className="font-bold">Quick Startup</span>
+              <span className="uppercase tracking-[0.2em] text-xs">
+                business registry inc.
+              </span>
+            </span>
+          </div>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <a href="#" className={classes.link}>
@@ -158,8 +166,10 @@ export function Header() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="outline" color="primary">
+              Log in
+            </Button>
+            <Button color="primary">Sign up</Button>
           </Group>
 
           <Burger

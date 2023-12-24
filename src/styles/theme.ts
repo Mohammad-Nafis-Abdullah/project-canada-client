@@ -2,8 +2,7 @@ import { createTheme, rem } from "@mantine/core";
 
 export const theme = createTheme({
   fontFamily: "",
-  defaultRadius: "md",
-  colors: {},
+  defaultRadius: "sm",
 
   headings: {
     sizes: {
@@ -39,5 +38,22 @@ export const theme = createTheme({
     md: "64em",
     lg: "80em",
     xl: "87.5em"
-  }
+  },
+
+  colors: {
+    primary: [
+      "#ffedef",
+      "#f7dbe0",
+      "#e6b4bd",
+      "#d78c98",
+      "#ca6a79",
+      "#c35466",
+      "#c0485c",
+      "#aa394c",
+      "#993143",
+      "#872638"
+    ]
+  },
+
+  components: {}
 });
