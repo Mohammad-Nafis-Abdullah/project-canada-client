@@ -33,7 +33,7 @@ export const DesktopNavItem = ({ item }: { item: MENUS_SCHEMA }) => {
         <UnstyledButton
           className={classes.link}
           onClick={() => {
-            if (hasLinks) router.push(item.url);
+            if (!hasLinks) router.push(item.url);
           }}
         >
           <Center inline>
@@ -75,7 +75,7 @@ export const MobileNavItem = ({ item }: { item: MENUS_SCHEMA }) => {
         <UnstyledButton
           onClick={() => {
             if (hasLinks) return toggle();
-            router.push(item.url);
+            if (!hasLinks) router.push(item.url);
           }}
           style={{ display: "flex", gap: 4, alignItems: "center" }}
         >
