@@ -1,0 +1,4 @@
+.accordion_label {
+  font-size: var(--mantine-font-size-md);
+  font-weight: 700;
+}

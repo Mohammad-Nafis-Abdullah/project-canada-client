@@ -1,4 +1,4 @@
-import { createTheme, rem } from "@mantine/core";
+import { Container, createTheme, rem } from "@mantine/core";
 
 export const theme = createTheme({
   fontFamily: "",
@@ -32,12 +32,13 @@ export const theme = createTheme({
       }
     }
   },
-  breakpoints: {
-    xs: "40em",
-    sm: "48em",
-    md: "64em",
-    lg: "80em",
-    xl: "87.5em"
+
+  fontSizes: {
+    xs: rem(10),
+    sm: rem(11),
+    md: rem(14),
+    lg: rem(16),
+    xl: rem(20)
   },
 
   colors: {
@@ -52,14 +53,76 @@ export const theme = createTheme({
       "#aa394c",
       "#993143",
       "#872638"
+    ],
+
+    gray: [
+      "#f9fafb",
+      "#f3f4f6",
+      "#e5e7eb",
+      "#d1d5db",
+      "#9ca3af",
+      "#6b7280",
+      "#4b5563",
+      "#374151",
+      "#1f2937",
+      "#030712"
     ]
   },
 
   components: {
+    Container: Container.extend({
+      vars: (_, { size, fluid }) => ({
+        root: {
+          "--container-size": fluid
+            ? "100%"
+            : size !== undefined && size in CONTAINER_SIZES
+            ? CONTAINER_SIZES[size]
+            : rem(size)
+        }
+      })
+    }),
     Button: {
       defaultProps: {
+        color: "primary"
+      }
+    },
+    TextInput: {
+      defaultProps: {
+        size: "md",
+        color: "primary"
+      }
+    },
+    Textarea: {
+      defaultProps: {
+        size: "md",
+        color: "primary"
+      }
+    },
+    Select: {
+      defaultProps: {
+        size: "md",
+        color: "primary"
+      }
+    },
+    RadioGroup: {
+      defaultProps: {
+        size: "md",
+        color: "primary"
+      }
+    },
+    Radio: {
+      defaultProps: {
+        size: "sm",
         color: "primary"
       }
     }
   }
 });
+
+const CONTAINER_SIZES: Record<string, string> = {
+  sm: rem(640),
+  md: rem(768),
+  lg: rem(1024),
+  xl: rem(1280),
+  "2xl": rem(1536)
+};

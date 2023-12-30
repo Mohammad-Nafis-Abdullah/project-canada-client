@@ -23,7 +23,13 @@ export function Header() {
   return (
     <Box>
       <header className={classes.header}>
-        <Flex justify="space-between" h="100%" align="center">
+        <Flex
+          justify="space-between"
+          h="100%"
+          align="center"
+          maw={1536}
+          mx="auto"
+        >
           <AppLogo />
 
           <Group h="100%" gap={0} visibleFrom="lg">

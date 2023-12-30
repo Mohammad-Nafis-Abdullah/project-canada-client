@@ -1,0 +1,8 @@
+.breadcrumb {
+  text-transform: capitalize;
+  width: max-content;
+}
+
+.link {
+  font-size: 15px;
+}
