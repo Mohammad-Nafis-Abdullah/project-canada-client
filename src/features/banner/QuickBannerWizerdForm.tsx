@@ -75,14 +75,17 @@ const QuickBusinessWizardForm = () => {
                             </span>
                         </Tabs.Tab>
                     </Tabs.List>
+
                     <section className="grow bg-primary/20 rounded p-5 mt-3">
                         <ShowPath
                             paths={path}
                             setPath={setPath}
                             setOption={setOption}
                         />
-                        <Switch case_key={option}>
-                            <Tabs.Panel value="corporate">corporate</Tabs.Panel>
+                        <Switch>
+                            <Tabs.Panel value="corporate">
+                                
+                            </Tabs.Panel>
                             <Tabs.Panel value="sole_proprietorship">
                                 sole_proprietorship
                             </Tabs.Panel>
