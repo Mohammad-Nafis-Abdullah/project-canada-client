@@ -14,6 +14,7 @@ import StepperFormLayout from "../StepperFormLayout";
 import { UseFormReturnType } from "@mantine/form";
 import { stAlbertaInitials } from "~/utils/schemas";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { pageFourFaqs } from "~/utils/faqs";
 
 type StAlbertStepFourProps = {
   form: UseFormReturnType<typeof stAlbertaInitials>;
@@ -94,7 +95,7 @@ const StAlbertStepFour = ({ form }: StAlbertStepFourProps) => {
   ));
 
   return (
-    <StepperFormLayout title="Director List">
+    <StepperFormLayout title="Director List" faqs={pageFourFaqs}>
       <Stack gap="lg">
         <Title order={4}>Primary Director</Title>
         {fields.slice(0, 1)}

@@ -20,7 +20,12 @@ import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
 import StAlbertStepFour from "~/features/form/steps/StAlbertStepFour";
 import StAlbertStepSeven from "~/features/form/steps/StAlbertStepSeven";
-import { pageTwoFaqs } from "~/utils/faqs";
+import {
+  pageFiveFaqs,
+  pageSixFaqs,
+  pageThreeFaqs,
+  pageTwoFaqs
+} from "~/utils/faqs";
 import { albertaSchema, stAlbertaInitials } from "~/utils/schemas";
 
 export default function AlbertaCorporationRoute() {
@@ -201,7 +206,10 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           <Stepper.Step label="Agent for Service">
-            <StepperFormLayout title="Agent for Service (Must be Alberta Resident)">
+            <StepperFormLayout
+              title="Agent for Service (Must be Alberta Resident)"
+              faqs={pageThreeFaqs}
+            >
               <Text size="md">
                 <strong>Note:</strong> Every Alberta corporation must appoint an
                 Agent for Service who must reside in Alberta. This individual
@@ -315,7 +323,7 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           <Stepper.Step label="Share Structure">
-            <StepperFormLayout title="Share Structure">
+            <StepperFormLayout title="Share Structure" faqs={pageFiveFaqs}>
               <Stack gap="lg">
                 <TextInput
                   label="Enter the price of class A voting share: $1.00 (Recommended)"
@@ -340,7 +348,7 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           <Stepper.Step label="Share Holder">
-            <StepperFormLayout title="Share Holder">
+            <StepperFormLayout title="Share Holder" faqs={pageSixFaqs}>
               <Stack gap="lg">
                 <Radio.Group
                   label="Is the 'Primary Director' a shareholder?"

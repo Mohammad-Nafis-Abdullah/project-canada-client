@@ -16,6 +16,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { stAlbertaInitials } from "~/utils/schemas";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import { pageSevenFaqs } from "~/utils/faqs";
 
 type StAlbertStepSevenProps = {
   form: UseFormReturnType<typeof stAlbertaInitials>;
@@ -71,7 +72,7 @@ const StAlbertStepSeven = ({ form }: StAlbertStepSevenProps) => {
   ));
 
   return (
-    <StepperFormLayout title="Corporation's Officer(s)">
+    <StepperFormLayout title="Corporation's Officer(s)" faqs={pageSevenFaqs}>
       <Stack gap="lg">
         <Radio.Group
           label="Is the 'Primary Director' the primary officer?"
