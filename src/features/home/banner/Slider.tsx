@@ -1,6 +1,6 @@
 import React from "react";
 import { Carousel } from "@mantine/carousel";
-import { Box, Image, rem } from "@mantine/core";
+import { Box, Image, Paper, rem } from "@mantine/core";
 import QuickBusinessWizardForm from "./QuickBannerWizerdForm";
 
 const sliderImages = [
@@ -30,16 +30,13 @@ const TopSlider = () => {
         {/* ...other slides */}
       </Carousel>
 
-      <Box
-        component="div"
-        style={{
-          position: "absolute",
-          bottom: 20,
-          right: 20
-        }}
+      <Paper
+        shadow="sm"
+        radius={"md"}
+        className="absolute -bottom-5 right-5 overflow-hidden"
       >
         <QuickBusinessWizardForm />
-      </Box>
+      </Paper>
     </Box>
   );
 };

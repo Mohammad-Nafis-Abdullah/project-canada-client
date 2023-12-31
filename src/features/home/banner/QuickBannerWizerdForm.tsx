@@ -87,14 +87,13 @@ const QuickBusinessWizardForm = () => {
     <QuickBusinessWizardFormContext.Provider
       value={{ pushToPath, setOption, option }}
     >
-      <Paper shadow="sm">
         <Tabs
           variant="outline"
           defaultValue="gallery"
           onChange={setActiveTab}
           value={activeTab}
         >
-          <div className="bg-white rounded p-5 flex flex-col">
+          <div className="bg-white rounded p-5 flex flex-col min-h-[310px] min-w-[500px]">
             <h3 className="text-xl font-bold mb-2">Type of Business :</h3>
             <Tabs.List>
               <Tabs.Tab
@@ -134,7 +133,7 @@ const QuickBusinessWizardForm = () => {
                     <h3 className="font-bold mb-2 text-gray-800">
                       Do you want ?
                     </h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="Profitable Corporation"
                         pathIndex={2}
@@ -158,7 +157,7 @@ const QuickBusinessWizardForm = () => {
                     <h3 className="font-bold mb-2 text-gray-800">
                       Do you want name Protection ?
                     </h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="All Over Canada"
                         pathIndex={3}
@@ -180,7 +179,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="Federal Corporation"
                         url="/incorporate/standard-corporation/federal-corporation"
@@ -196,7 +195,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <DropDownBtn
                         label="List for Provinces"
                         list={[
@@ -220,7 +219,7 @@ const QuickBusinessWizardForm = () => {
                     <h3 className="font-bold mb-2 text-gray-800">
                       Do you want name Protection ?
                     </h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="All Over Canada"
                         pathIndex={3}
@@ -242,7 +241,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="Federal Non-Profit"
                         url="/federal-non-profit"
@@ -258,7 +257,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <DropDownBtn
                         label="List for Provinces"
                         list={[
@@ -279,7 +278,7 @@ const QuickBusinessWizardForm = () => {
                       path[0] === "sole_proprietorship" && stepsCount === 1
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <DropDownBtn
                         label="List for Provinces"
                         list={[
@@ -299,7 +298,7 @@ const QuickBusinessWizardForm = () => {
                     condition={path[0] === "partnership" && stepsCount === 1}
                   >
                     <h3 className="font-bold mb-2 text-gray-800">Are you:</h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="Professional"
                         pathIndex={2}
@@ -321,7 +320,7 @@ const QuickBusinessWizardForm = () => {
                     }
                   >
                     <h3 className="font-bold mb-2 text-gray-800">--- :</h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="Protect Personal Assets"
                         pathIndex={3}
@@ -343,7 +342,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="Limited Liability Partnership"
                         url="/limited-liability-partnership-llp"
@@ -359,7 +358,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="General partnership"
                         url="/general-partnership"
@@ -375,7 +374,7 @@ const QuickBusinessWizardForm = () => {
                     }
                   >
                     <h3 className="font-bold mb-2 text-gray-800">--- :</h3>
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <StepBtn
                         label="Someone has Zero Liability"
                         pathIndex={3}
@@ -397,7 +396,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="Limited Partnership"
                         url="/limited-partnership-lp"
@@ -413,7 +412,7 @@ const QuickBusinessWizardForm = () => {
                       stepsCount === 3
                     }
                   >
-                    <section className="flex gap-3 justify-center">
+                    <section className="flex gap-3">
                       <RedirectBtn
                         label="General Partnership"
                         url="/general-partnership"
@@ -425,7 +424,6 @@ const QuickBusinessWizardForm = () => {
             </section>
           </div>
         </Tabs>
-      </Paper>
     </QuickBusinessWizardFormContext.Provider>
   );
 };
@@ -442,12 +440,13 @@ const ShowPath = ({
   setOption: Dispatch<SetStateAction<Option_type>>;
 }) => {
   const getPathList = (paths: Option_type[]) => {
-    const size = [...paths].length;
-    if (size > 3) {
-      return [...paths].slice(size - 3, size);
-    } else {
-      return [...paths];
-    }
+    // const size = [...paths].length;
+    // if (size > 3) {
+    //   return [...paths].slice(size - 3, size);
+    // } else {
+    //   return [...paths];
+    // }
+    return [...paths].slice(1);
   };
 
   return (
