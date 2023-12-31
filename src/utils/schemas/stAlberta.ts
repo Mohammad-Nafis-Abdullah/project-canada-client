@@ -76,7 +76,7 @@ export const stepOneSchema = z
     legalSuffix: z.string().min(1, REQUIRED_ERROR),
     majorActivities: z.string().min(1, REQUIRED_ERROR),
     proposedNameOfCorporation: z.string(),
-    nuansReport: z.instanceof(File).array()
+    nuansReport: z.any().array()
   })
   .refine(
     (data) =>
@@ -119,7 +119,7 @@ const stepThreeSchema = z.object({
     suite: z.string().min(1, REQUIRED_ERROR),
     province: z.string().min(1, REQUIRED_ERROR),
     postalCode: z.string().min(1, REQUIRED_ERROR),
-    photoPassport: z.instanceof(File).array().min(1, REQUIRED_ERROR)
+    photoPassport: z.any().array().min(1, REQUIRED_ERROR)
   })
 });
 
