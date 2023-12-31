@@ -2,7 +2,6 @@ import React from "react";
 import { Carousel } from "@mantine/carousel";
 import { Box, Image, rem } from "@mantine/core";
 import QuickBusinessWizardForm from "./QuickBannerWizerdForm";
-import classes from "./banner.module.css";
 
 const sliderImages = [
   "/images/slider-1.jpg",
@@ -17,9 +16,7 @@ const TopSlider = () => {
         withControls={false}
         withIndicators
         loop
-        classNames={{
-          container: classes.container
-        }}
+        height={`calc(100vh - ${rem(100)})`}
         dragFree
         slideGap="md"
         align="start"

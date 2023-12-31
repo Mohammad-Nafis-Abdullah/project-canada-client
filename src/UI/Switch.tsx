@@ -1,32 +1,50 @@
-import { ReactNode, createContext, useContext } from "react";
+// import { ReactNode, createContext, useContext } from "react";
 
-const SwitchContext = createContext({ case_key: "" });
+import { ReactNode } from "react";
 
-export default function Switch({
-  case_key,
-  children
-}: {
-  case_key: string;
-  children: ReactNode;
-}) {
-  return (
-    <SwitchContext.Provider value={{ case_key }}>
-      {children}
-    </SwitchContext.Provider>
-  );
+// const SwitchContext = createContext({ case_key: "" });
+
+// export default function Switch({
+//   case_key,
+//   children
+// }: {
+//   case_key: string;
+//   children: ReactNode;
+// }) {
+//   return (
+//     <SwitchContext.Provider value={{ case_key }}>
+//       {children}
+//     </SwitchContext.Provider>
+//   );
+// }
+
+// function Case({
+//   case_value,
+//   children
+// }: {
+//   case_value: string[];
+//   children: ReactNode;
+// }) {
+//   const { case_key } = useContext(SwitchContext);
+//   // console.log({ case_key, case_value });
+
+//   return case_value.find((value) => value === case_key) ? children : <></>;
+// }
+
+// Switch.Case = Case;
+
+export default function Switch({ children }: { children: ReactNode }) {
+  return <>{children}</>;
 }
 
-function Case({
-  case_value,
+const Case = ({
+  condition,
   children
 }: {
-  case_value: string[];
+  condition: boolean;
   children: ReactNode;
-}) {
-  const { case_key } = useContext(SwitchContext);
-  // console.log({ case_key, case_value });
-
-  return case_value.find((value) => value === case_key) ? children : <></>;
-}
+}) => {
+  return condition ? children : <></>;
+};
 
 Switch.Case = Case;

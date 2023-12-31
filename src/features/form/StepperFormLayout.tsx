@@ -4,7 +4,7 @@ import classes from "./form.module.css";
 
 type StepperFormLayoutProps = PropsWithChildren<{
   faqs?: Array<{ question: string; answer: string }>;
-  title: string;
+  title?: string;
 }>;
 
 const StepperFormLayout = ({

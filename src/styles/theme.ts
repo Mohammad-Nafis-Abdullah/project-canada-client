@@ -38,7 +38,8 @@ export const theme = createTheme({
     sm: rem(11),
     md: rem(14),
     lg: rem(16),
-    xl: rem(20)
+    xl: rem(20),
+    xxl: rem(30)
   },
 
   colors: {
