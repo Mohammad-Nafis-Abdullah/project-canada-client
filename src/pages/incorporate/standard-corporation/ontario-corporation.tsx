@@ -307,7 +307,7 @@ export default function AlbertaCorporationRoute() {
             onClick={() => handleStepChange(active + 1)}
             type={active !== TOTAL_STEPS ? "button" : "submit"}
           >
-            {active !== TOTAL_STEPS ? "button" : "submit"}
+            Next step
           </Button>
         </Group>
         {/* )} */}
