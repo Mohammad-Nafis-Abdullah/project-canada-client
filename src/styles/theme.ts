@@ -113,7 +113,7 @@ export const theme = createTheme({
     },
     Radio: {
       defaultProps: {
-        size: "sm",
+        size: "md",
         color: "primary"
       }
     }

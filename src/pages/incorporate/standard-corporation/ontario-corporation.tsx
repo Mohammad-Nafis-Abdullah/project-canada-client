@@ -1,21 +1,34 @@
 import {
   Box,
   Button,
+  FileButton,
   Group,
   Radio,
+  Select,
   SimpleGrid,
+  Stack,
   Stepper,
+  Text,
   TextInput,
   Title
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { IconCloudUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
+import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
+import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
+import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
+import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
 import PackageCard from "~/features/package/PackageCard";
-import { ontarioSchema, stOntarioInitials } from "~/utils/schemas/stOntario";
+import {
+  legalSuffixOptions,
+  ontarioSchema,
+  stOntarioInitials
+} from "~/utils/schemas";
 
-const TOTAL_STEPS = 2;
+const TOTAL_STEPS = 8;
 
 export default function AlbertaCorporationRoute() {
   const [active, setActive] = useState(0);
@@ -28,6 +41,8 @@ export default function AlbertaCorporationRoute() {
   };
 
   const handleStepChange = (nextStep: number) => {
+    console.log(form.errors);
+
     const isOutOfBounds =
       nextStep > TOTAL_STEPS || form.validate().hasErrors || nextStep < 0;
 
@@ -44,10 +59,11 @@ export default function AlbertaCorporationRoute() {
     },
 
     validate:
-      active <= TOTAL_STEPS ? zodResolver(ontarioSchema[active]) : undefined
+      active !== TOTAL_STEPS ? zodResolver(ontarioSchema[active]) : undefined
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
+    console.log(form.errors);
     console.log(values);
   });
 
@@ -59,7 +75,7 @@ export default function AlbertaCorporationRoute() {
 
   return (
     <FormLayout name="Ontario Standard Corporation Form">
-      <Box pt="lg" component="form" onSubmit={handleSubmit}>
+      <Box py="lg" component="form" onSubmit={handleSubmit}>
         <Title order={6}>
           Application for Ontario Corporation Registration
         </Title>
@@ -79,26 +95,197 @@ export default function AlbertaCorporationRoute() {
 
           <Stepper.Step label="Intention">
             <StepperFormLayout>
-              <Radio.Group
-                label="Intention of your Corporation"
-                {...form.getInputProps("intentionOfCorporation")}
-              >
-                <Radio
-                  value="numbered"
-                  mt="xs"
-                  label="Numbered (12345678 Canada Inc.)"
-                />
-                <Radio value="named" my="xs" label="Named (ABCD Society)" />
-              </Radio.Group>
-
-              {form.values.intentionOfCorporation === "named" && (
-                <>
-                  <TextInput
-                    label="Proposed Business name"
-                    {...form.getInputProps("proposedBusinessName")}
+              <Stack gap="lg">
+                <Radio.Group
+                  label="Intention of your Corporation"
+                  {...form.getInputProps("intentionOfCorporation")}
+                >
+                  <Radio
+                    value="numbered"
+                    mt="xs"
+                    label="Numbered (12345678 Canada Inc.)"
                   />
-                </>
-              )}
+                  <Radio value="named" my="xs" label="Named (ABCD Society)" />
+                </Radio.Group>
+
+                {form.values.intentionOfCorporation === "named" && (
+                  <>
+                    <TextInput
+                      label="Proposed Business name"
+                      {...form.getInputProps("proposedBusinessName")}
+                    />
+                    <Select
+                      label="Select a legal suffix"
+                      placeholder="Select one"
+                      data={legalSuffixOptions}
+                      {...form.getInputProps("legalSuffix")}
+                    />
+                    <Radio.Group
+                      label="NUANS/Name Reservation Report"
+                      {...form.getInputProps("haveNuansReport")}
+                    >
+                      <Radio
+                        value="YES"
+                        mt="xs"
+                        label="YES, I have NUANS/Name Reservation"
+                      />
+                      <Radio
+                        value="NO"
+                        my="xs"
+                        label="NO, I don't have NUANS/Name Reservation"
+                      />
+                    </Radio.Group>
+
+                    {form.values.haveNuansReport === "YES" ? (
+                      <Box>
+                        <Text
+                          component="label"
+                          size="md"
+                          mb="xs"
+                          display="block"
+                        >
+                          Please add your NUANS report
+                        </Text>
+                        <FileButton
+                          accept=".docx, .doc, .pdf"
+                          multiple
+                          onChange={(files) => {
+                            form.setFieldValue("nuansReport", files);
+                          }}
+                        >
+                          {(props) => (
+                            <Button
+                              color="primary"
+                              variant="outline"
+                              leftSection={<IconCloudUpload size={18} />}
+                              {...props}
+                            >
+                              Upload file
+                            </Button>
+                          )}
+                        </FileButton>
+                        {form.errors.nuansReport && (
+                          <Text size="sm" style={{ color: "red" }}>
+                            {form.errors.nuansReport}
+                          </Text>
+                        )}
+                        <SimpleGrid cols={2} mt="sm" spacing={3}>
+                          {form.values.nuansReport.map((file, index) => (
+                            <p key={index}>
+                              {index + 1}. {file.name}
+                            </p>
+                          ))}
+                        </SimpleGrid>
+                      </Box>
+                    ) : (
+                      <Box>
+                        <Button>Payment for NUANS</Button>
+                      </Box>
+                    )}
+                  </>
+                )}
+              </Stack>
+            </StepperFormLayout>
+          </Stepper.Step>
+
+          <Stepper.Step label="Business Activity">
+            <StepperFormLayout>
+              <Stack gap="lg">
+                <TextInput
+                  label="Business activity"
+                  {...form.getInputProps("businessActivity")}
+                />
+
+                <Box>
+                  <Title order={6}>
+                    Corporation&apos;s Registered Address:
+                  </Title>
+                  <SimpleGrid cols={2}>
+                    <TextInput
+                      label="Street number & name"
+                      {...form.getInputProps("corporation.address")}
+                    />
+                    <TextInput
+                      label="Apt/Unit/Suite Number (If available)"
+                      {...form.getInputProps("corporation.appartment")}
+                    />
+                    <TextInput
+                      label="City"
+                      {...form.getInputProps("corporation.city")}
+                    />
+                    <TextInput
+                      label="Postal Code"
+                      {...form.getInputProps("corporation.postalCode")}
+                    />
+                  </SimpleGrid>
+                </Box>
+              </Stack>
+            </StepperFormLayout>
+          </Stepper.Step>
+
+          <Stepper.Step label="Director or Representative">
+            <StOntarioStepFour form={form} />
+          </Stepper.Step>
+
+          <Stepper.Step label="Article">
+            <StOntarioStepFive form={form} />
+          </Stepper.Step>
+
+          <Stepper.Step label="By Laws & Minute Book">
+            <StOntarioStepSix form={form} />
+          </Stepper.Step>
+
+          <Stepper.Step label="Share">
+            <StOntarioStepSeven form={form} />
+          </Stepper.Step>
+
+          <Stepper.Step label="CRA">
+            <StepperFormLayout>
+              <Stack gap="lg">
+                <Select
+                  label="CRA Registration"
+                  placeholder="Select one"
+                  data={[
+                    "GST/HST Registration",
+                    "Payroll Registration",
+                    "Import/Export Registration",
+                    "Dividend Account Registration"
+                  ]}
+                  {...form.getInputProps(`craRegistration`)}
+                />
+
+                <Select
+                  label="Other Registration"
+                  placeholder="Select one"
+                  data={[
+                    "Initial Return",
+                    "WSIB",
+                    "Domain Registration",
+                    "Email Registration",
+                    "Website and app development (Coming Soon)"
+                  ]}
+                  {...form.getInputProps(`otherRegistration`)}
+                />
+
+                <Select
+                  label="Supplies"
+                  placeholder="Select one"
+                  data={[
+                    "Corporate Seal",
+                    "Physical minute book",
+                    "Share Certificate",
+                    "Business Card"
+                  ]}
+                  {...form.getInputProps(`supplies`)}
+                />
+
+                <Select
+                  label="Yearly Service"
+                  placeholder="Select one"
+                  data={["One year Service support", "Annual Return"]}
+                  {...form.getInputProps(`yearlyService`)}
+                />
+              </Stack>
             </StepperFormLayout>
           </Stepper.Step>
 
@@ -118,9 +305,9 @@ export default function AlbertaCorporationRoute() {
 
           <Button
             onClick={() => handleStepChange(active + 1)}
-            type={active + 1 === TOTAL_STEPS ? "submit" : "button"}
+            type={active !== TOTAL_STEPS ? "button" : "submit"}
           >
-            Next step
+            {active !== TOTAL_STEPS ? "button" : "submit"}
           </Button>
         </Group>
         {/* )} */}

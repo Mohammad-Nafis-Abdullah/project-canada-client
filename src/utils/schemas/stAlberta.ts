@@ -2,6 +2,15 @@ import { ZodSchema, z } from "zod";
 import { REQUIRED_ERROR } from "../errors";
 import { randomId } from "@mantine/hooks";
 
+export const legalSuffixOptions: [string, ...string[]] = [
+  "INC.",
+  "CORP.",
+  "LTD.",
+  "Incorporation",
+  "CORPORATION",
+  "Limited"
+];
+
 export const stAlbertaInitials = {
   corporationType: "numbered",
   legalSuffix: "",
@@ -73,7 +82,9 @@ export const stAlbertaInitials = {
 export const stepOneSchema = z
   .object({
     corporationType: z.string().min(1, REQUIRED_ERROR),
-    legalSuffix: z.string().min(1, REQUIRED_ERROR),
+    legalSuffix: z.enum(legalSuffixOptions, {
+      errorMap: () => ({ message: "Please select one" })
+    }),
     majorActivities: z.string().min(1, REQUIRED_ERROR),
     proposedNameOfCorporation: z.string(),
     nuansReport: z.any().array()

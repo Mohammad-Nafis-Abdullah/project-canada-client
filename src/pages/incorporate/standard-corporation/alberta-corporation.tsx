@@ -26,7 +26,11 @@ import {
   pageThreeFaqs,
   pageTwoFaqs
 } from "~/utils/faqs";
-import { albertaSchema, stAlbertaInitials } from "~/utils/schemas";
+import {
+  albertaSchema,
+  legalSuffixOptions,
+  stAlbertaInitials
+} from "~/utils/schemas";
 
 export default function AlbertaCorporationRoute() {
   const [active, setActive] = useState(0);
@@ -126,14 +130,7 @@ export default function AlbertaCorporationRoute() {
                 <Select
                   label="Select a legal suffix"
                   placeholder="Select one"
-                  data={[
-                    "Ltd.",
-                    "Inc.",
-                    "Corp.",
-                    "Limited",
-                    "Incorporation",
-                    "Corporation"
-                  ]}
+                  data={legalSuffixOptions}
                   {...form.getInputProps("legalSuffix")}
                 />
 
@@ -386,7 +383,6 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Completed>
         </Stepper>
 
-        {active}
         <Group justify="center" mt="xl">
           {active !== 0 && (
             <Button variant="default" onClick={handlePrevStep}>

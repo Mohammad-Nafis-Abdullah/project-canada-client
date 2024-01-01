@@ -17,7 +17,7 @@ function PackageCard(props: PackageCardProps) {
 
   return (
     <Card withBorder radius="md" p="md" className={classes.card}>
-      <Card.Section bg="var(--mantine-color-primary-3)">
+      <Card.Section bg="var(--mantine-color-primary-1)">
         <Flex justify="center" align="center" direction="column" h={180}>
           <Text size="xxl" fw={700}>
             {name}
