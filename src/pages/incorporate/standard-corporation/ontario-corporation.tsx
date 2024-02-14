@@ -71,6 +71,7 @@ export default function AlbertaCorporationRoute() {
     if (selectPackage) {
       form.setFieldValue("packageId", selectPackage);
     }
+    // eslint-disable-next-line
   }, [selectPackage]);
 
   return (
@@ -207,7 +208,7 @@ export default function AlbertaCorporationRoute() {
                     />
                     <TextInput
                       label="Apt/Unit/Suite Number (If available)"
-                      {...form.getInputProps("corporation.appartment")}
+                      {...form.getInputProps("corporation.apartment")}
                     />
                     <TextInput
                       label="City"
@@ -223,7 +224,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          <Stepper.Step label="Director or Representative">
+          <Stepper.Step label="Director">
             <StOntarioStepFour form={form} />
           </Stepper.Step>
 

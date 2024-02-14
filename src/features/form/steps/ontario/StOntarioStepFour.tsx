@@ -7,23 +7,24 @@ import {
   Select,
   SimpleGrid,
   Stack,
-  Switch,
-  Text,
   TextInput,
   Title
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import {
-  residencyStatus,
-  stAlbertaInitials,
-  stOntarioInitials
-} from "~/utils/schemas";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { pageFourFaqs } from "~/utils/faqs";
+import { residencyStatus, stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
 
 type StOntarioStepFourProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
+};
+
+const textMap: { [key: number]: string } = {
+  1: "2nd",
+  2: "3rd",
+  3: "4th",
+  4: "5th",
+  5: "6th"
 };
 
 const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
@@ -32,7 +33,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
       {index > 0 && (
         <Group justify="space-between" align="center">
           <Title order={6} mt="lg" mb="xs">
-            {textMap[index]}
+            {textMap[index]} Director&apos;s Information
           </Title>
           <ActionIcon
             color="red"
@@ -57,6 +58,12 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
             label="Last Name"
             {...form.getInputProps(`directors.${index}.lastName`)}
           />
+          <Select
+            label="Residency Status"
+            placeholder="Select one"
+            data={residencyStatus}
+            {...form.getInputProps(`directors.${index}.residencyStatus`)}
+          />
           <TextInput
             label="Contact Number"
             {...form.getInputProps(`directors.${index}.phone`)}
@@ -69,13 +76,81 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
 
         <Stack mt="lg">
           <Radio.Group
+            label="Address"
+            {...form.getInputProps(`directors.${index}.isCompleteAddress`)}
+          >
+            <Radio
+              value="corporation"
+              mt="xs"
+              label="Same as business address"
+            />
+            <Radio value="complete" my="xs" label="Provide complete address" />
+          </Radio.Group>
+
+          {item.isCompleteAddress === "complete" && (
+            <>
+              <SimpleGrid cols={2}>
+                <TextInput
+                  label="Street Address"
+                  {...form.getInputProps(`directors.${index}.address`)}
+                />
+                <TextInput
+                  label="Suite/Unit"
+                  {...form.getInputProps(`directors.${index}.suite`)}
+                />
+                <TextInput
+                  label="City"
+                  {...form.getInputProps(`directors.${index}.city`)}
+                />
+                <TextInput
+                  label="Province"
+                  {...form.getInputProps(`directors.${index}.province`)}
+                />
+                <TextInput
+                  label="Postal Code"
+                  {...form.getInputProps(`directors.${index}.postalCode`)}
+                />
+              </SimpleGrid>
+            </>
+          )}
+
+          {item.isCompleteAddress === "corporation" && (
+            <>
+              <SimpleGrid cols={2}>
+                <TextInput
+                  label="Street number & name"
+                  defaultValue={form.values.corporation.address}
+                  readOnly
+                />
+                <TextInput
+                  label="Apt/Unit/Suite Number (If available)"
+                  defaultValue={form.values.corporation.apartment}
+                  readOnly
+                />
+                <TextInput
+                  label="City"
+                  defaultValue={form.values.corporation.city}
+                  readOnly
+                />
+                <TextInput
+                  label="Postal Code"
+                  defaultValue={form.values.corporation.postalCode}
+                  readOnly
+                />
+              </SimpleGrid>
+            </>
+          )}
+        </Stack>
+
+        <Stack mt="lg">
+          <Radio.Group
             label="Is this director an Incorporator ?"
             {...form.getInputProps(
               `directors.${index}.isDirectorAnIncorporator`
             )}
           >
-            <Radio value="director" mt="xs" label="Director" />
-            <Radio value="incorporator" my="xs" label="Representative" />
+            <Radio value="YES" mt="xs" label="YES" />
+            <Radio value="NO" my="xs" label="NO" />
           </Radio.Group>
 
           <Radio.Group
@@ -135,78 +210,30 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
   return (
     <StepperFormLayout>
       <Stack gap="lg">
-        <Radio.Group
-          label="Are you a director or Representative?"
-          {...form.getInputProps("isDirectorOrRepresentative")}
-        >
-          <Radio value="director" mt="xs" label="Director" />
-          <Radio value="representative" my="xs" label="Representative" />
-        </Radio.Group>
+        <Title order={4}>Director</Title>
+        {fields.slice(0, 1)}
 
-        {form.values.isDirectorOrRepresentative === "representative" && (
-          <>
-            <Box>
-              <Title order={6}>
-                Will be contacted if further information needed
-              </Title>
-              <SimpleGrid cols={2}>
-                <TextInput
-                  label="First Name"
-                  {...form.getInputProps("representative.firstName")}
-                />
-                <TextInput
-                  label="Middle Name"
-                  {...form.getInputProps("representative.middleName")}
-                />
-                <TextInput
-                  label="Last Name"
-                  {...form.getInputProps("representative.lastName")}
-                />
-                <TextInput
-                  label="Contact Number"
-                  {...form.getInputProps("representative.phone")}
-                />
-                <TextInput
-                  label="Address"
-                  description="Same as Organization address Or, Provide Complete Address"
-                  {...form.getInputProps("representative.address")}
-                />
-              </SimpleGrid>
-            </Box>
-          </>
-        )}
+        <Box>
+          <Title order={4}>Additional Director</Title>
+          {fields.slice(1)}
 
-        {form.values.isDirectorOrRepresentative === "director" && (
-          <>
-            {fields.slice(0, 1)}
-
-            <Box>
-              <Title order={4}>Additional Director</Title>
-              {fields.slice(1)}
-
-              <Button
-                mt="lg"
-                disabled={fields.length === 2}
-                leftSection={<IconPlus size={16} />}
-                onClick={() =>
-                  form.insertListItem("directors", {
-                    ...stOntarioInitials["directors"][0],
-                    label: "Additional"
-                  })
-                }
-              >
-                Add more directors
-              </Button>
-            </Box>
-          </>
-        )}
+          <Button
+            mt="lg"
+            disabled={fields.length === 6}
+            leftSection={<IconPlus size={16} />}
+            onClick={() =>
+              form.insertListItem("directors", {
+                ...stOntarioInitials["directors"][0],
+                label: "Additional"
+              })
+            }
+          >
+            Add more directors
+          </Button>
+        </Box>
       </Stack>
     </StepperFormLayout>
   );
 };
 
 export default StOntarioStepFour;
-
-const textMap: { [key: number]: string } = {
-  1: "2nd Director's Information"
-};

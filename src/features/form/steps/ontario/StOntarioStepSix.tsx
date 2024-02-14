@@ -1,9 +1,12 @@
 import {
   Accordion,
   ActionIcon,
+  Alert,
   Box,
   Button,
   Group,
+  List,
+  Modal,
   Radio,
   Select,
   SimpleGrid,
@@ -19,21 +22,31 @@ import {
   stAlbertaInitials,
   stOntarioInitials
 } from "~/utils/schemas";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconInfoCircle, IconPlus, IconTrash } from "@tabler/icons-react";
 import { pageFourFaqs } from "~/utils/faqs";
 import StepperFormLayout from "../../StepperFormLayout";
+import { useEffect, useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
 
 type StOntarioStepSixProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
 
+const textMap: { [key: number]: string } = {
+  1: "2nd",
+  2: "3rd",
+  3: "4th",
+  4: "5th",
+  5: "6th"
+};
+
 const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
   const fields = form.values.officerOfCorporations.map((item, index) => (
-    <Box key={item.key}>
+    <Box key={item.key + index}>
       {index > 0 && (
         <Group justify="space-between" align="center">
           <Title order={6} mt="lg" mb="xs">
-            {textMap[index]}
+            {textMap[index]} Officer&apos;s Information
           </Title>
           <ActionIcon
             color="red"
@@ -100,7 +113,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
 
               <Button
                 mt="lg"
-                disabled={fields.length === 2}
+                disabled={fields.length === 6}
                 leftSection={<IconPlus size={16} />}
                 onClick={() =>
                   form.insertListItem("officerOfCorporations", {
@@ -114,13 +127,26 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
             </Box>
           </Box>
         )}
+
+        {form.values.isBylawsAndMinuteBook === "NO" && (
+          <Alert
+            variant="light"
+            color="red"
+            title="ATTENTION"
+            icon={<IconInfoCircle />}
+          >
+            You&apos;re skipping the following information as you didn&apos;t
+            select MinuteBook & Bylaws.
+            <List listStyleType="decimal">
+              <List.Item>Shareholder(s)</List.Item>
+              <List.Item>Share Number(s) & Price(s)</List.Item>
+              <List.Item>Officer(s) & Officer(s) Designation</List.Item>
+            </List>
+          </Alert>
+        )}
       </Stack>
     </StepperFormLayout>
   );
 };
 
 export default StOntarioStepSix;
-
-const textMap: { [key: number]: string } = {
-  1: "2nd Officer's Information"
-};

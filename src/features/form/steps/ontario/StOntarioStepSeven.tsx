@@ -5,22 +5,15 @@ import {
   FileButton,
   Group,
   Radio,
-  Select,
   SimpleGrid,
   Stack,
-  Switch,
   Text,
   TextInput,
   Title
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import {
-  residencyStatus,
-  stAlbertaInitials,
-  stOntarioInitials
-} from "~/utils/schemas";
 import { IconCloudUpload, IconPlus, IconTrash } from "@tabler/icons-react";
-import { pageFourFaqs } from "~/utils/faqs";
+import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
 
 type StOntarioStepSevenProps = {

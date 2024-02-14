@@ -9,12 +9,17 @@ export const residencyStatus: [string, ...string[]] = [
 ];
 
 export const stOntarioInitials = {
+  // step - 1
   packageId: "",
+
+  // step - 2
   intentionOfCorporation: "numbered",
   proposedBusinessName: "",
   legalSuffix: "",
   haveNuansReport: "YES",
   nuansReport: [] as File[],
+
+  // step - 3
   businessActivity: "",
   corporation: {
     address: "",
@@ -22,15 +27,8 @@ export const stOntarioInitials = {
     postalCode: "",
     apartment: ""
   },
-  isDirectorOrRepresentative: "director",
-  representative: {
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    phone: "",
-    address: ""
-  },
 
+  // step - 4
   directors: [
     {
       label: "Primary",
@@ -40,7 +38,13 @@ export const stOntarioInitials = {
       lastName: "",
       phone: "",
       email: "",
+      isCompleteAddress: "",
       address: "",
+      city: "",
+      postalCode: "",
+      province: "Ontario",
+      suite: "",
+
       residencyStatus: "",
       isDirectorAnIncorporator: "director",
       isHaveMoreIncorporator: "YES",
@@ -56,7 +60,10 @@ export const stOntarioInitials = {
     }
   ],
 
+  // step - 5
   articleOfIncorporation: "",
+
+  // step - 6
   isBylawsAndMinuteBook: "",
   officerOfCorporations: [
     {
@@ -68,6 +75,8 @@ export const stOntarioInitials = {
       designation: ""
     }
   ],
+
+  // step - 7
   priceOfAShare: "",
   priceOfBShare: "",
   customArticleText: "",
@@ -84,6 +93,8 @@ export const stOntarioInitials = {
       numberOfShare: ""
     }
   ],
+
+  // step - 8
   craRegistration: "",
   otherRegistration: "",
   supplies: "",
@@ -124,24 +135,21 @@ const stepThreeSchema = z.object({
 });
 
 const stepFourSchema = z.object({
-  isDirectorOrRepresentative: z.enum(["director", "representative"]),
-  representative: z.object({
-    firstName: z.string(),
-    middleName: z.string(),
-    lastName: z.string(),
-    phone: z.string(),
-    address: z.string()
-  }),
   directors: z.array(
     z.object({
       firstName: z.string(),
       middleName: z.string(),
       lastName: z.string(),
       phone: z.string(),
+      isCompleteAddress: z.string(),
       address: z.string(),
-      email: z.string().email("Invalid email"),
+      city: z.string(),
+      suite: z.string(),
+      province: z.string(),
+      postalCode: z.string(),
+      email: z.string().max(0).or(z.string().email()),
       residencyStatus: z.string(),
-      isDirectorAnIncorporator: z.enum(["director", "incorporator"]),
+      isDirectorAnIncorporator: z.enum(["YES", "NO"]),
       isHaveMoreIncorporator: z.enum(["YES", "NO"]),
       individual: z.object({
         firstName: z.string(),
