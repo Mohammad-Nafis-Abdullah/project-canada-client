@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   Stack,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
@@ -24,7 +24,7 @@ const textMap: { [key: number]: string } = {
   2: "3rd",
   3: "4th",
   4: "5th",
-  5: "6th"
+  5: "6th",
 };
 
 const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
@@ -113,33 +113,6 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
               </SimpleGrid>
             </>
           )}
-
-          {item.isCompleteAddress === "corporation" && (
-            <>
-              <SimpleGrid cols={2}>
-                <TextInput
-                  label="Street number & name"
-                  defaultValue={form.values.corporation.address}
-                  readOnly
-                />
-                <TextInput
-                  label="Apt/Unit/Suite Number (If available)"
-                  defaultValue={form.values.corporation.apartment}
-                  readOnly
-                />
-                <TextInput
-                  label="City"
-                  defaultValue={form.values.corporation.city}
-                  readOnly
-                />
-                <TextInput
-                  label="Postal Code"
-                  defaultValue={form.values.corporation.postalCode}
-                  readOnly
-                />
-              </SimpleGrid>
-            </>
-          )}
         </Stack>
 
         <Stack mt="lg">
@@ -224,7 +197,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
             onClick={() =>
               form.insertListItem("directors", {
                 ...stOntarioInitials["directors"][0],
-                label: "Additional"
+                label: "Additional",
               })
             }
           >

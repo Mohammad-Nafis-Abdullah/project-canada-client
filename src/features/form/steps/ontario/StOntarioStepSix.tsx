@@ -1,32 +1,21 @@
 import {
-  Accordion,
   ActionIcon,
   Alert,
   Box,
   Button,
   Group,
   List,
-  Modal,
   Radio,
   Select,
   SimpleGrid,
   Stack,
-  Switch,
-  Text,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import {
-  residencyStatus,
-  stAlbertaInitials,
-  stOntarioInitials
-} from "~/utils/schemas";
 import { IconInfoCircle, IconPlus, IconTrash } from "@tabler/icons-react";
-import { pageFourFaqs } from "~/utils/faqs";
+import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
-import { useEffect, useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
 
 type StOntarioStepSixProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
@@ -37,7 +26,7 @@ const textMap: { [key: number]: string } = {
   2: "3rd",
   3: "4th",
   4: "5th",
-  5: "6th"
+  5: "6th",
 };
 
 const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
@@ -81,7 +70,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
               "Secretary",
               "Treasurer",
               "Chief Financial Officer (CFO)",
-              "Program Manager"
+              "Program Manager",
             ]}
             {...form.getInputProps(
               `officerOfCorporations.${index}.designation`
@@ -118,7 +107,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
                 onClick={() =>
                   form.insertListItem("officerOfCorporations", {
                     ...stOntarioInitials["officerOfCorporations"][0],
-                    label: "Additional"
+                    label: "Additional",
                   })
                 }
               >

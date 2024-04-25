@@ -4,12 +4,13 @@ import {
   Button,
   FileButton,
   Group,
+  NumberInput,
   Radio,
   SimpleGrid,
   Stack,
   Text,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { IconCloudUpload, IconPlus, IconTrash } from "@tabler/icons-react";
@@ -21,63 +22,85 @@ type StOntarioStepSevenProps = {
 };
 
 const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
-  const fields = form.values.invidualShareholder.map((item, index) => (
-    <Box key={item.key}>
-      {index > 0 && (
-        <Group justify="space-between" align="center">
-          <Title order={6} mt="lg" mb="xs">
-            {textMap[index]}
-          </Title>
-          <ActionIcon
-            color="red"
-            variant="subtle"
-            onClick={() => form.removeListItem("invidualShareholder", index)}
-          >
-            <IconTrash size="1rem" />
-          </ActionIcon>
-        </Group>
-      )}
+  const fields = form.values.stepSeven.invidualShareholder.map(
+    (item, index) => (
+      <Box key={item.key}>
+        {index > 0 && (
+          <Group justify="space-between" align="center">
+            <Title order={6} mt="lg" mb="xs">
+              {textMap[index]}
+            </Title>
+            <ActionIcon
+              color="red"
+              variant="subtle"
+              onClick={() =>
+                form.removeListItem("stepSeven.invidualShareholder", index)
+              }
+            >
+              <IconTrash size="1rem" />
+            </ActionIcon>
+          </Group>
+        )}
 
-      <SimpleGrid cols={2}>
-        <TextInput
-          label="First Name"
-          {...form.getInputProps(`invidualShareholder.${index}.firstName`)}
-        />
-        <TextInput
-          label="Middle Name"
-          {...form.getInputProps(`invidualShareholder.${index}.middleName`)}
-        />
-        <TextInput
-          label="Last Name"
-          {...form.getInputProps(`invidualShareholder.${index}.lastName`)}
-        />
+        <SimpleGrid cols={2}>
+          <TextInput
+            label="First Name"
+            {...form.getInputProps(
+              `stepSeven.invidualShareholder.${index}.firstName`
+            )}
+          />
+          <TextInput
+            label="Middle Name"
+            {...form.getInputProps(
+              `stepSeven.invidualShareholder.${index}.middleName`
+            )}
+          />
+          <TextInput
+            label="Last Name"
+            {...form.getInputProps(
+              `stepSeven.invidualShareholder.${index}.lastName`
+            )}
+          />
 
-        <TextInput
-          label="Address"
-          description="Same as Organization address Or, Provide Complete Address"
-          {...form.getInputProps(`invidualShareholder.${index}.address`)}
-        />
-        <TextInput
-          label="Number of share"
-          {...form.getInputProps(`invidualShareholder.${index}.numberOfShare`)}
-        />
-      </SimpleGrid>
-    </Box>
-  ));
+          <TextInput
+            label="Address"
+            description="Same as Organization address Or, Provide Complete Address"
+            {...form.getInputProps(
+              `stepSeven.invidualShareholder.${index}.address`
+            )}
+          />
+          <TextInput
+            label="Number of share"
+            {...form.getInputProps(
+              `stepSeven.invidualShareholder.${index}.numberOfShare`
+            )}
+          />
+        </SimpleGrid>
+      </Box>
+    )
+  );
 
   return (
     <StepperFormLayout>
       <Stack gap="lg">
-        {(form.values.articleOfIncorporation === "standard" ||
-          form.values.articleOfIncorporation === "advanced") && (
+        {form.values.articleOfIncorporation === "standard" && (
+          <>
+            <NumberInput
+              label="Price of per share"
+              {...form.getInputProps("stepSeven.priceOfPerShare")}
+            />
+          </>
+        )}
+
+        {form.values.articleOfIncorporation === "advanced" && (
           <>
             <TextInput
               label="Price of Class A Share"
-              {...form.getInputProps("priceOfAShare")}
+              {...form.getInputProps("stepSeven.priceOfAShare")}
             />
             <TextInput
               label="Price of Class B Share"
-              {...form.getInputProps("priceOfBShare")}
+              {...form.getInputProps("stepSeven.priceOfBShare")}
             />
           </>
         )}
@@ -86,7 +109,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           <>
             <TextInput
               label="Custom Article text"
-              {...form.getInputProps("customArticleText")}
+              {...form.getInputProps("stepSeven.customArticleText")}
             />
 
             <Text size="lg">Or,</Text>
@@ -99,7 +122,10 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                 accept=".docx, .doc, .pdf"
                 multiple
                 onChange={(files) => {
-                  form.setFieldValue("customArticleAttachment", files);
+                  form.setFieldValue(
+                    "stepSeven.customArticleAttachment",
+                    files
+                  );
                 }}
               >
                 {(props) => (
@@ -119,11 +145,13 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                 </Text>
               )}
               <SimpleGrid cols={2} mt="sm" spacing={3}>
-                {form.values.customArticleAttachment.map((file, index) => (
-                  <p key={index}>
-                    {index + 1}. {file.name}
-                  </p>
-                ))}
+                {form.values.stepSeven.customArticleAttachment.map(
+                  (file, index) => (
+                    <p key={index}>
+                      {index + 1}. {file.name}
+                    </p>
+                  )
+                )}
               </SimpleGrid>
             </Box>
           </>
@@ -131,7 +159,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
 
         <Radio.Group
           label="Shareholder of Corporation"
-          {...form.getInputProps("shareholderOfCorporation")}
+          {...form.getInputProps("stepSeven.shareholderOfCorporation")}
         >
           <Radio
             value="all"
@@ -144,7 +172,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
             label="I want to add individual shareholder."
           />
 
-          {form.values.shareholderOfCorporation === "individual" && (
+          {form.values.stepSeven.shareholderOfCorporation === "individual" && (
             <Box>
               {fields.slice(0, 1)}
 
@@ -157,9 +185,9 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                   disabled={fields.length === 2}
                   leftSection={<IconPlus size={16} />}
                   onClick={() =>
-                    form.insertListItem("invidualShareholder", {
-                      ...stOntarioInitials["invidualShareholder"][0],
-                      label: "Additional"
+                    form.insertListItem("stepSeven.invidualShareholder", {
+                      ...stOntarioInitials["stepSeven"].invidualShareholder[0],
+                      label: "Additional",
                     })
                   }
                 >
@@ -177,5 +205,5 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
 export default StOntarioStepSeven;
 
 const textMap: { [key: number]: string } = {
-  1: "2nd Director's Information"
+  1: "2nd Director's Information",
 };

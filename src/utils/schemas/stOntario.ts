@@ -5,7 +5,7 @@ import { randomId } from "@mantine/hooks";
 export const residencyStatus: [string, ...string[]] = [
   "PR",
   "Citizen",
-  "Non Resident"
+  "Non Resident",
 ];
 
 export const stOntarioInitials = {
@@ -25,7 +25,7 @@ export const stOntarioInitials = {
     address: "",
     city: "",
     postalCode: "",
-    apartment: ""
+    apartment: "",
   },
 
   // step - 4
@@ -46,18 +46,18 @@ export const stOntarioInitials = {
       suite: "",
 
       residencyStatus: "",
-      isDirectorAnIncorporator: "director",
+      isDirectorAnIncorporator: "YES",
       isHaveMoreIncorporator: "YES",
       individual: {
         firstName: "",
         middleName: "",
-        lastName: ""
+        lastName: "",
       },
       corporation: {
         name: "",
-        ocn: ""
-      }
-    }
+        ocn: "",
+      },
+    },
   ],
 
   // step - 5
@@ -72,37 +72,59 @@ export const stOntarioInitials = {
       firstName: "",
       middleName: "",
       lastName: "",
-      designation: ""
-    }
+      designation: "",
+    },
   ],
 
   // step - 7
-  priceOfAShare: "",
-  priceOfBShare: "",
-  customArticleText: "",
-  customArticleAttachment: [] as File[],
-  shareholderOfCorporation: "",
-  invidualShareholder: [
-    {
-      label: "Primary",
-      key: randomId(),
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      address: "",
-      numberOfShare: ""
-    }
-  ],
+  stepSeven: {
+    priceOfAShare: "",
+    priceOfBShare: "",
+    priceOfPerShare: 1,
+    customArticleText: "",
+    customArticleAttachment: [] as File[],
+    shareholderOfCorporation: "",
+    invidualShareholder: [
+      {
+        label: "Primary",
+        key: randomId(),
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        address: "",
+        numberOfShare: "",
+      },
+    ],
+  },
 
   // step - 8
-  craRegistration: "",
-  otherRegistration: "",
-  supplies: "",
-  yearlyService: ""
+  craRegistration: {
+    gstHstReg: "",
+    payrollReg: "",
+    importExportReg: "",
+    dividendAccReg: "",
+  },
+
+  // step - 9
+  otherRegistration: {
+    initialReturn: "No $0.00",
+    wsib: "No $0.00",
+    domainReg: "No $0.00",
+    emailReg: "No $0.00",
+  },
+
+  // step - 10
+  suppliesAndServices: {
+    corporateSeal: "No $0.00",
+    PhysicalMinuteBook: "No $0.00",
+    shareCertificates: [],
+    oneYearServiceSupport: "No $0.00",
+    annualReturn: "No $0.00",
+  },
 };
 
 const stepOneSchema = z.object({
-  packageId: z.string().min(1, REQUIRED_ERROR)
+  packageId: z.string().min(1, REQUIRED_ERROR),
 });
 
 const stepTwoSchema = z
@@ -111,7 +133,7 @@ const stepTwoSchema = z
     proposedBusinessName: z.string(),
     legalSuffix: z.string().optional(),
     haveNuansReport: z.enum(["YES", "NO"]).default("YES"),
-    nuansReport: z.any().array()
+    nuansReport: z.any().array(),
   })
   .refine(
     (data) =>
@@ -120,7 +142,7 @@ const stepTwoSchema = z
         : data.proposedBusinessName.length === 0,
     {
       message: REQUIRED_ERROR,
-      path: ["proposedBusinessName"]
+      path: ["proposedBusinessName"],
     }
   );
 
@@ -130,8 +152,8 @@ const stepThreeSchema = z.object({
     address: z.string(),
     city: z.string(),
     postalCode: z.string(),
-    apartment: z.string()
-  })
+    apartment: z.string(),
+  }),
 });
 
 const stepFourSchema = z.object({
@@ -154,18 +176,18 @@ const stepFourSchema = z.object({
       individual: z.object({
         firstName: z.string(),
         middleName: z.string(),
-        lastName: z.string()
+        lastName: z.string(),
       }),
       corporation: z.object({
         name: z.string(),
-        ocn: z.string()
-      })
+        ocn: z.string(),
+      }),
     })
-  )
+  ),
 });
 
 const stepFiveSchema = z.object({
-  articleOfIncorporation: z.string()
+  articleOfIncorporation: z.string(),
 });
 
 const stepSixSchema = z.object({
@@ -175,33 +197,57 @@ const stepSixSchema = z.object({
       firstName: z.string(),
       middleName: z.string(),
       lastName: z.string(),
-      designation: z.string()
+      designation: z.string(),
     })
-  )
+  ),
 });
 
 const stepSevenSchema = z.object({
-  priceOfAShare: z.string(),
-  priceOfBShare: z.string(),
-  customArticleText: z.string(),
-  customArticleAttachment: z.any().array(),
-  shareholderOfCorporation: z.string(),
-  invidualShareholder: z.array(
-    z.object({
-      firstName: z.string(),
-      middleName: z.string(),
-      lastName: z.string(),
-      address: z.string(),
-      numberOfShare: z.string()
-    })
-  )
+  stepSeven: z.object({
+    priceOfAShare: z.string(),
+    priceOfBShare: z.string(),
+    priceOfPerShare: z.number().int({ message: "Invalid number" }).min(1),
+    customArticleText: z.string(),
+    customArticleAttachment: z.any().array(),
+    shareholderOfCorporation: z.string(),
+    invidualShareholder: z.array(
+      z.object({
+        firstName: z.string(),
+        middleName: z.string(),
+        lastName: z.string(),
+        address: z.string(),
+        numberOfShare: z.string(),
+      })
+    ),
+  }),
 });
 
 const stepEightSchema = z.object({
-  craRegistration: z.string(),
-  otherRegistration: z.string(),
-  supplies: z.string(),
-  yearlyService: z.string()
+  craRegistration: z.object({
+    gstHstReg: z.string(),
+    payrollReg: z.string(),
+    importExportReg: z.string(),
+    dividendAccReg: z.string(),
+  }),
+});
+
+const stepNineSchema = z.object({
+  otherRegistration: z.object({
+    initialReturn: z.string(),
+    wsib: z.string(),
+    domainReg: z.string(),
+    emailReg: z.string(),
+  }),
+});
+
+const stepTenSchema = z.object({
+  suppliesAndServices: z.object({
+    corporateSeal: z.string(),
+    PhysicalMinuteBook: z.string(),
+    shareCertificates: z.string(),
+    oneYearServiceSupport: z.string(),
+    annualReturn: z.string(),
+  }),
 });
 
 export const ontarioSchema: { [key: number]: ZodSchema } = {
@@ -212,5 +258,7 @@ export const ontarioSchema: { [key: number]: ZodSchema } = {
   4: stepFiveSchema,
   5: stepSixSchema,
   6: stepSevenSchema,
-  7: stepEightSchema
+  7: stepEightSchema,
+  8: stepNineSchema,
+  9: stepTenSchema,
 };

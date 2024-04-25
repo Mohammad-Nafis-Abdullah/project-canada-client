@@ -10,7 +10,7 @@ import {
   Stepper,
   Text,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { IconCloudUpload } from "@tabler/icons-react";
@@ -25,7 +25,7 @@ import PackageCard from "~/features/package/PackageCard";
 import {
   legalSuffixOptions,
   ontarioSchema,
-  stOntarioInitials
+  stOntarioInitials,
 } from "~/utils/schemas";
 
 const TOTAL_STEPS = 8;
@@ -55,11 +55,11 @@ export default function AlbertaCorporationRoute() {
 
   const form = useForm<typeof stOntarioInitials>({
     initialValues: {
-      ...stOntarioInitials
+      ...stOntarioInitials,
     },
 
     validate:
-      active !== TOTAL_STEPS ? zodResolver(ontarioSchema[active]) : undefined
+      active !== TOTAL_STEPS ? zodResolver(ontarioSchema[active]) : undefined,
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -236,57 +236,121 @@ export default function AlbertaCorporationRoute() {
             <StOntarioStepSix form={form} />
           </Stepper.Step>
 
-          <Stepper.Step label="Share">
-            <StOntarioStepSeven form={form} />
+          {form.values.isBylawsAndMinuteBook === "YES" && (
+            <Stepper.Step label="Share">
+              <StOntarioStepSeven form={form} />
+            </Stepper.Step>
+          )}
+
+          <Stepper.Step label="CRA Registration">
+            <StepperFormLayout>
+              <Radio.Group
+                label="GST/HST Registration"
+                {...form.getInputProps("craRegistration.gstHstReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="Payroll Registration"
+                {...form.getInputProps("craRegistration.payrollReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="Import/Export Registration"
+                {...form.getInputProps("craRegistration.importExportReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="Dividend Account Registration"
+                {...form.getInputProps("craRegistration.dividendAccReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+            </StepperFormLayout>
           </Stepper.Step>
 
-          <Stepper.Step label="CRA">
+          <Stepper.Step label="Other Registration">
             <StepperFormLayout>
-              <Stack gap="lg">
-                <Select
-                  label="CRA Registration"
-                  placeholder="Select one"
-                  data={[
-                    "GST/HST Registration",
-                    "Payroll Registration",
-                    "Import/Export Registration",
-                    "Dividend Account Registration"
-                  ]}
-                  {...form.getInputProps(`craRegistration`)}
-                />
+              <Radio.Group
+                label="Initial Return"
+                {...form.getInputProps("otherRegistration.initialReturn")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
 
-                <Select
-                  label="Other Registration"
-                  placeholder="Select one"
-                  data={[
-                    "Initial Return",
-                    "WSIB",
-                    "Domain Registration",
-                    "Email Registration",
-                    "Website and app development (Coming Soon)"
-                  ]}
-                  {...form.getInputProps(`otherRegistration`)}
-                />
+              <Radio.Group
+                label="WSIB"
+                {...form.getInputProps("otherRegistration.wsib")}
+              >
+                <Radio value="Yes $99.00" mt="xs" label="Yes $99.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
 
-                <Select
-                  label="Supplies"
-                  placeholder="Select one"
-                  data={[
-                    "Corporate Seal",
-                    "Physical minute book",
-                    "Share Certificate",
-                    "Business Card"
-                  ]}
-                  {...form.getInputProps(`supplies`)}
-                />
+              <Radio.Group
+                label="Domain Registration"
+                {...form.getInputProps("otherRegistration.domainReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
 
-                <Select
-                  label="Yearly Service"
-                  placeholder="Select one"
-                  data={["One year Service support", "Annual Return"]}
-                  {...form.getInputProps(`yearlyService`)}
-                />
-              </Stack>
+              <Radio.Group
+                label="Email Registration"
+                {...form.getInputProps("otherRegistration.emailReg")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+            </StepperFormLayout>
+          </Stepper.Step>
+
+          <Stepper.Step label="Supplies & Services">
+            <StepperFormLayout>
+              <Radio.Group
+                label="Corporate Seal"
+                {...form.getInputProps("suppliesAndServices.corporateSeal")}
+              >
+                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="Physical minute book"
+                {...form.getInputProps(
+                  "suppliesAndServices.PhysicalMinuteBook"
+                )}
+              >
+                <Radio value="Yes $49.00" mt="xs" label="Yes $49.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="One year Service support"
+                {...form.getInputProps(
+                  "suppliesAndServices.oneYearServiceSupport"
+                )}
+              >
+                <Radio value="Yes $99.00" mt="xs" label="Yes $99.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
+
+              <Radio.Group
+                label="Annual Return"
+                {...form.getInputProps("suppliesAndServices.annualReturn")}
+              >
+                <Radio value="Yes $149.00" mt="xs" label="Yes $149.00" />
+                <Radio value="No $0.00" my="xs" label="No $0.00" />
+              </Radio.Group>
             </StepperFormLayout>
           </Stepper.Step>
 
@@ -329,8 +393,8 @@ const ontarioPackages = [
       "NUANS/ Name approval",
       "Company key",
       "Business Number",
-      "Corporation Tax ID"
-    ]
+      "Corporation Tax ID",
+    ],
   },
   {
     id: "1ffb2517-71b8-4142-ab63-04bb6bbc1c5a",
@@ -345,8 +409,8 @@ const ontarioPackages = [
       "Company key",
       "Business Number",
       "Corporation Tax ID",
-      "Link Business with CRA"
-    ]
+      "Link Business with CRA",
+    ],
   },
   {
     id: "83365464-4216-4f73-b3e1-55b2b72438eb",
@@ -363,7 +427,7 @@ const ontarioPackages = [
       "Corporation Tax ID",
       "GST/HST Registration",
       "Link Business with CRA",
-      "Business Logo"
-    ]
-  }
+      "Business Logo",
+    ],
+  },
 ];
