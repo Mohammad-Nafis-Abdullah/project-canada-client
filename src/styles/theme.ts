@@ -1,5 +1,13 @@
 import { Container, createTheme, rem } from "@mantine/core";
 
+const CONTAINER_SIZES: Record<string, string> = {
+  sm: rem(640),
+  md: rem(768),
+  lg: rem(1024),
+  xl: rem(1280),
+  "2xl": rem(1546),
+};
+
 export const theme = createTheme({
   fontFamily: "",
   defaultRadius: "sm",
@@ -8,29 +16,29 @@ export const theme = createTheme({
     sizes: {
       h1: {
         fontSize: rem(48),
-        lineHeight: rem(48)
+        lineHeight: rem(48),
       },
       h2: {
         fontSize: rem(30),
-        lineHeight: rem(36)
+        lineHeight: rem(36),
       },
       h3: {
         fontSize: rem(24),
-        lineHeight: rem(32)
+        lineHeight: rem(32),
       },
       h4: {
         fontSize: rem(20),
-        lineHeight: rem(28)
+        lineHeight: rem(28),
       },
       h5: {
         fontSize: rem(18),
-        lineHeight: rem(28)
+        lineHeight: rem(28),
       },
       h6: {
         fontSize: rem(16),
-        lineHeight: rem(28)
-      }
-    }
+        lineHeight: rem(28),
+      },
+    },
   },
 
   fontSizes: {
@@ -39,7 +47,7 @@ export const theme = createTheme({
     md: rem(14),
     lg: rem(16),
     xl: rem(20),
-    xxl: rem(30)
+    xxl: rem(30),
   },
 
   colors: {
@@ -53,7 +61,7 @@ export const theme = createTheme({
       "#c0485c",
       "#aa394c",
       "#993143",
-      "#872638"
+      "#872638",
     ],
 
     gray: [
@@ -66,8 +74,8 @@ export const theme = createTheme({
       "#4b5563",
       "#374151",
       "#1f2937",
-      "#030712"
-    ]
+      "#030712",
+    ],
   },
 
   components: {
@@ -78,52 +86,44 @@ export const theme = createTheme({
             ? "100%"
             : size !== undefined && size in CONTAINER_SIZES
             ? CONTAINER_SIZES[size]
-            : rem(size)
-        }
-      })
+            : rem(size),
+        },
+      }),
     }),
     Button: {
       defaultProps: {
-        color: "primary"
-      }
+        color: "primary",
+      },
     },
     TextInput: {
       defaultProps: {
         size: "md",
-        color: "primary"
-      }
+        color: "primary",
+      },
     },
     Textarea: {
       defaultProps: {
         size: "md",
-        color: "primary"
-      }
+        color: "primary",
+      },
     },
     Select: {
       defaultProps: {
         size: "md",
-        color: "primary"
-      }
+        color: "primary",
+      },
     },
     RadioGroup: {
       defaultProps: {
         size: "md",
-        color: "primary"
-      }
+        color: "primary",
+      },
     },
     Radio: {
       defaultProps: {
         size: "md",
-        color: "primary"
-      }
-    }
-  }
+        color: "primary",
+      },
+    },
+  },
 });
-
-const CONTAINER_SIZES: Record<string, string> = {
-  sm: rem(640),
-  md: rem(768),
-  lg: rem(1024),
-  xl: rem(1280),
-  "2xl": rem(1536)
-};

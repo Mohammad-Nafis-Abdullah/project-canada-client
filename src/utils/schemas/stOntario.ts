@@ -244,7 +244,6 @@ const stepTenSchema = z.object({
   suppliesAndServices: z.object({
     corporateSeal: z.string(),
     PhysicalMinuteBook: z.string(),
-    shareCertificates: z.string(),
     oneYearServiceSupport: z.string(),
     annualReturn: z.string(),
   }),

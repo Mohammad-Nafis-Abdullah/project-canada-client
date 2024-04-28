@@ -28,9 +28,11 @@ import {
   stOntarioInitials,
 } from "~/utils/schemas";
 
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 10;
 
 export default function AlbertaCorporationRoute() {
+  const [totalSteps, setTotalSteps] = useState(9);
+
   const [active, setActive] = useState(0);
   const [selectPackage, setSelectPackage] = useState<string>(
     ontarioPackages[0].id
@@ -41,10 +43,8 @@ export default function AlbertaCorporationRoute() {
   };
 
   const handleStepChange = (nextStep: number) => {
-    console.log(form.errors);
-
     const isOutOfBounds =
-      nextStep > TOTAL_STEPS || form.validate().hasErrors || nextStep < 0;
+      nextStep > totalSteps || form.validate().hasErrors || nextStep < 0;
 
     if (isOutOfBounds) {
       return;
@@ -59,11 +59,10 @@ export default function AlbertaCorporationRoute() {
     },
 
     validate:
-      active !== TOTAL_STEPS ? zodResolver(ontarioSchema[active]) : undefined,
+      active !== totalSteps ? zodResolver(ontarioSchema[active]) : undefined,
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
-    console.log(form.errors);
     console.log(values);
   });
 
@@ -73,6 +72,12 @@ export default function AlbertaCorporationRoute() {
     }
     // eslint-disable-next-line
   }, [selectPackage]);
+
+  useEffect(() => {
+    if (form.values.isBylawsAndMinuteBook === "YES") {
+      setTotalSteps(10);
+    } else setTotalSteps(9);
+  }, [form.values.isBylawsAndMinuteBook]);
 
   return (
     <FormLayout name="Ontario Standard Corporation Form">
@@ -362,20 +367,21 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Completed>
         </Stepper>
 
-        {/* {active !== TOTAL_STEPS && ( */}
         <Group justify="center" mt="xl">
           <Button variant="default" onClick={handlePrevStep}>
             Back
           </Button>
 
-          <Button
-            onClick={() => handleStepChange(active + 1)}
-            type={active !== TOTAL_STEPS ? "button" : "submit"}
-          >
-            Next step
-          </Button>
+          {active !== totalSteps ? (
+            <Button onClick={() => handleStepChange(active + 1)} type="button">
+              Next Step
+            </Button>
+          ) : (
+            <Button onClick={() => handleStepChange(active + 1)} type="submit">
+              submit
+            </Button>
+          )}
         </Group>
-        {/* )} */}
       </Box>
     </FormLayout>
   );
