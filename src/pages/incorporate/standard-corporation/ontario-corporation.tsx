@@ -17,6 +17,7 @@ import { IconCloudUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
+import StOntarioStepComplete from "~/features/form/steps/ontario/StOntarioStepComplete";
 import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
 import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
@@ -86,6 +87,7 @@ export default function AlbertaCorporationRoute() {
           Application for Ontario Corporation Registration
         </Title>
         <Stepper mt="lg" size="sm" active={active} color="primary">
+          {/* step - 1 */}
           <Stepper.Step label="Choose Package">
             <SimpleGrid cols={3} spacing="sm" maw={1040} mx="auto">
               {ontarioPackages.map((item) => (
@@ -99,6 +101,7 @@ export default function AlbertaCorporationRoute() {
             </SimpleGrid>
           </Stepper.Step>
 
+          {/* step - 2 */}
           <Stepper.Step label="Intention">
             <StepperFormLayout>
               <Stack gap="lg">
@@ -194,6 +197,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
+          {/* step - 3 */}
           <Stepper.Step label="Business Activity">
             <StepperFormLayout>
               <Stack gap="lg">
@@ -229,24 +233,29 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
+          {/* step - 4 */}
           <Stepper.Step label="Director">
             <StOntarioStepFour form={form} />
           </Stepper.Step>
 
+          {/* step - 5 */}
           <Stepper.Step label="Article">
             <StOntarioStepFive form={form} />
           </Stepper.Step>
 
+          {/* step - 6 */}
           <Stepper.Step label="By Laws & Minute Book">
             <StOntarioStepSix form={form} />
           </Stepper.Step>
 
+          {/* step - 7 */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
               <StOntarioStepSeven form={form} />
             </Stepper.Step>
           )}
 
+          {/* step - 8 */}
           <Stepper.Step label="CRA Registration">
             <StepperFormLayout>
               <Radio.Group
@@ -283,6 +292,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
+          {/* step - 9 */}
           <Stepper.Step label="Other Registration">
             <StepperFormLayout>
               <Radio.Group
@@ -319,6 +329,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
+          {/* step - 10 */}
           <Stepper.Step label="Supplies & Services">
             <StepperFormLayout>
               <Radio.Group
@@ -359,11 +370,9 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
+          {/* Completed step */}
           <Stepper.Completed>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet a
-            vitae perspiciatis illum tempore repudiandae similique culpa labore
-            eius voluptate, expedita ex ipsa exercitationem cumque. Nesciunt
-            unde deserunt accusamus illo.
+            <StOntarioStepComplete form={form} />
           </Stepper.Completed>
         </Stepper>
 
@@ -387,7 +396,7 @@ export default function AlbertaCorporationRoute() {
   );
 }
 
-const ontarioPackages = [
+export const ontarioPackages = [
   {
     id: "6c6e231d-99ad-464a-9247-0e26205a3047",
     name: "Essential",

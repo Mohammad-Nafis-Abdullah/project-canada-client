@@ -117,7 +117,6 @@ export const stOntarioInitials = {
   suppliesAndServices: {
     corporateSeal: "No $0.00",
     PhysicalMinuteBook: "No $0.00",
-    shareCertificates: [],
     oneYearServiceSupport: "No $0.00",
     annualReturn: "No $0.00",
   },
