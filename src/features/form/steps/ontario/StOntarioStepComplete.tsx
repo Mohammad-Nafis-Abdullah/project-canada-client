@@ -39,7 +39,7 @@ function RenderRow({
         {labelMap[title] ? labelMap[title] : title}:
       </Text>
       <Text size="md" style={{ fontWeight: 800 }}>
-        {value}
+        {value || 0}
       </Text>
     </Flex>
   );

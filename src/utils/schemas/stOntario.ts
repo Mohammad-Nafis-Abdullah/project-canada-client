@@ -5,7 +5,7 @@ import { randomId } from "@mantine/hooks";
 export const residencyStatus: [string, ...string[]] = [
   "PR",
   "Citizen",
-  "Non Resident",
+  "Non Resident"
 ];
 
 export const stOntarioInitials = {
@@ -25,7 +25,7 @@ export const stOntarioInitials = {
     address: "",
     city: "",
     postalCode: "",
-    apartment: "",
+    apartment: ""
   },
 
   // step - 4
@@ -51,13 +51,13 @@ export const stOntarioInitials = {
       individual: {
         firstName: "",
         middleName: "",
-        lastName: "",
+        lastName: ""
       },
       corporation: {
         name: "",
-        ocn: "",
-      },
-    },
+        ocn: ""
+      }
+    }
   ],
 
   // step - 5
@@ -72,8 +72,8 @@ export const stOntarioInitials = {
       firstName: "",
       middleName: "",
       lastName: "",
-      designation: "",
-    },
+      designation: ""
+    }
   ],
 
   // step - 7
@@ -92,17 +92,17 @@ export const stOntarioInitials = {
         middleName: "",
         lastName: "",
         address: "",
-        numberOfShare: "",
-      },
-    ],
+        numberOfShare: ""
+      }
+    ]
   },
 
   // step - 8
   craRegistration: {
-    gstHstReg: "",
-    payrollReg: "",
-    importExportReg: "",
-    dividendAccReg: "",
+    gstHstReg: "No $0.00",
+    payrollReg: "No $0.00",
+    importExportReg: "No $0.00",
+    dividendAccReg: "No $0.00"
   },
 
   // step - 9
@@ -110,7 +110,7 @@ export const stOntarioInitials = {
     initialReturn: "No $0.00",
     wsib: "No $0.00",
     domainReg: "No $0.00",
-    emailReg: "No $0.00",
+    emailReg: "No $0.00"
   },
 
   // step - 10
@@ -118,12 +118,12 @@ export const stOntarioInitials = {
     corporateSeal: "No $0.00",
     PhysicalMinuteBook: "No $0.00",
     oneYearServiceSupport: "No $0.00",
-    annualReturn: "No $0.00",
-  },
+    annualReturn: "No $0.00"
+  }
 };
 
 const stepOneSchema = z.object({
-  packageId: z.string().min(1, REQUIRED_ERROR),
+  packageId: z.string().min(1, REQUIRED_ERROR)
 });
 
 const stepTwoSchema = z
@@ -132,7 +132,7 @@ const stepTwoSchema = z
     proposedBusinessName: z.string(),
     legalSuffix: z.string().optional(),
     haveNuansReport: z.enum(["YES", "NO"]).default("YES"),
-    nuansReport: z.any().array(),
+    nuansReport: z.any().array()
   })
   .refine(
     (data) =>
@@ -141,7 +141,7 @@ const stepTwoSchema = z
         : data.proposedBusinessName.length === 0,
     {
       message: REQUIRED_ERROR,
-      path: ["proposedBusinessName"],
+      path: ["proposedBusinessName"]
     }
   );
 
@@ -151,8 +151,8 @@ const stepThreeSchema = z.object({
     address: z.string(),
     city: z.string(),
     postalCode: z.string(),
-    apartment: z.string(),
-  }),
+    apartment: z.string()
+  })
 });
 
 const stepFourSchema = z.object({
@@ -175,18 +175,18 @@ const stepFourSchema = z.object({
       individual: z.object({
         firstName: z.string(),
         middleName: z.string(),
-        lastName: z.string(),
+        lastName: z.string()
       }),
       corporation: z.object({
         name: z.string(),
-        ocn: z.string(),
-      }),
+        ocn: z.string()
+      })
     })
-  ),
+  )
 });
 
 const stepFiveSchema = z.object({
-  articleOfIncorporation: z.string(),
+  articleOfIncorporation: z.string()
 });
 
 const stepSixSchema = z.object({
@@ -196,9 +196,9 @@ const stepSixSchema = z.object({
       firstName: z.string(),
       middleName: z.string(),
       lastName: z.string(),
-      designation: z.string(),
+      designation: z.string()
     })
-  ),
+  )
 });
 
 const stepSevenSchema = z.object({
@@ -215,10 +215,10 @@ const stepSevenSchema = z.object({
         middleName: z.string(),
         lastName: z.string(),
         address: z.string(),
-        numberOfShare: z.string(),
+        numberOfShare: z.string()
       })
-    ),
-  }),
+    )
+  })
 });
 
 const stepEightSchema = z.object({
@@ -226,8 +226,8 @@ const stepEightSchema = z.object({
     gstHstReg: z.string(),
     payrollReg: z.string(),
     importExportReg: z.string(),
-    dividendAccReg: z.string(),
-  }),
+    dividendAccReg: z.string()
+  })
 });
 
 const stepNineSchema = z.object({
@@ -235,8 +235,8 @@ const stepNineSchema = z.object({
     initialReturn: z.string(),
     wsib: z.string(),
     domainReg: z.string(),
-    emailReg: z.string(),
-  }),
+    emailReg: z.string()
+  })
 });
 
 const stepTenSchema = z.object({
@@ -244,8 +244,8 @@ const stepTenSchema = z.object({
     corporateSeal: z.string(),
     PhysicalMinuteBook: z.string(),
     oneYearServiceSupport: z.string(),
-    annualReturn: z.string(),
-  }),
+    annualReturn: z.string()
+  })
 });
 
 export const ontarioSchema: { [key: number]: ZodSchema } = {
@@ -258,5 +258,5 @@ export const ontarioSchema: { [key: number]: ZodSchema } = {
   6: stepSevenSchema,
   7: stepEightSchema,
   8: stepNineSchema,
-  9: stepTenSchema,
+  9: stepTenSchema
 };
