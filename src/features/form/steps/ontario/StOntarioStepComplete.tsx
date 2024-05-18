@@ -3,6 +3,40 @@ import { UseFormReturnType } from "@mantine/form";
 import { ontarioPackages } from "~/pages/incorporate/standard-corporation/ontario-corporation";
 import { stOntarioInitials } from "~/utils/schemas";
 
+const labelMap: { [key: string]: string } = {
+  gstHstReg: "GST/HST Registration",
+  payrollReg: "Payroll Registration",
+  importExportReg: "Import/Export Registration",
+  dividendAccReg: "Dividend Account Registration",
+  initialReturn: "Initial Return",
+  wsib: "WSIB",
+  domainReg: "Domain Registration",
+  emailReg: "Email Registration",
+  corporateSeal: "Corporate Seal",
+  PhysicalMinuteBook: "Physical minute book",
+  oneYearServiceSupport: "One year service support",
+  annualReturn: "Annual Return"
+};
+
+function RenderRow({
+  title,
+  value
+}: {
+  title: string;
+  value: string | undefined;
+}) {
+  return (
+    <Flex align="center" gap="xs">
+      <Text size="md" style={{ fontWeight: 500 }}>
+        {labelMap[title] ? labelMap[title] : title}:
+      </Text>
+      <Text size="md" style={{ fontWeight: 800 }}>
+        {value}
+      </Text>
+    </Flex>
+  );
+}
+
 type StOntarioStepCompleteProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
@@ -15,18 +49,18 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
   const obj = {
     package: {
       name: ontarioPkg?.name,
-      price: ontarioPkg?.price,
+      price: ontarioPkg?.price
     },
     articleOfIncorporation: form.values.articleOfIncorporation,
     craRegistration: {
-      ...form.values.craRegistration,
+      ...form.values.craRegistration
     },
     otherRegistration: {
-      ...form.values.otherRegistration,
+      ...form.values.otherRegistration
     },
     suppliesAndServices: {
-      ...form.values.suppliesAndServices,
-    },
+      ...form.values.suppliesAndServices
+    }
   };
 
   return (
@@ -74,22 +108,3 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
 };
 
 export default StOntarioStepComplete;
-
-function RenderRow({
-  title,
-  value,
-}: {
-  title: string;
-  value: string | undefined;
-}) {
-  return (
-    <Flex align="center" gap="xs">
-      <Text size="md" style={{ fontWeight: 500 }}>
-        {title}:
-      </Text>
-      <Text size="md" style={{ fontWeight: 800 }}>
-        {value}
-      </Text>
-    </Flex>
-  );
-}
