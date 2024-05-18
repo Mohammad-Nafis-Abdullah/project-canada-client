@@ -1,4 +1,12 @@
-import { Box, Flex, Stack, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Flex,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title
+} from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { ontarioPackages } from "~/pages/incorporate/standard-corporation/ontario-corporation";
 import { stOntarioInitials } from "~/utils/schemas";
@@ -64,7 +72,7 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
   };
 
   return (
-    <Box>
+    <Paper mt="xl" maw={960} mx="auto" shadow="lg" p="xl">
       <Stack gap="xs">
         <RenderRow
           title="Package"
@@ -76,34 +84,36 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
           value={`${obj.articleOfIncorporation}`}
         />
 
-        <Box>
-          <Title order={6}>CRA Registration</Title>
-          <Stack mt="xs" gap="xs">
-            {Object.entries(obj.craRegistration).map(([key, value]) => {
-              return <RenderRow key={key} title={key} value={value} />;
-            })}
-          </Stack>
-        </Box>
+        <SimpleGrid cols={3} spacing="xl" mt="xl">
+          <Box>
+            <Title order={6}>CRA Registration</Title>
+            <Stack mt="xs" gap="xs">
+              {Object.entries(obj.craRegistration).map(([key, value]) => {
+                return <RenderRow key={key} title={key} value={value} />;
+              })}
+            </Stack>
+          </Box>
 
-        <Box>
-          <Title order={6}>Other Registration</Title>
-          <Stack mt="xs" gap="xs">
-            {Object.entries(obj.otherRegistration).map(([key, value]) => {
-              return <RenderRow key={key} title={key} value={value} />;
-            })}
-          </Stack>
-        </Box>
+          <Box>
+            <Title order={6}>Other Registration</Title>
+            <Stack mt="xs" gap="xs">
+              {Object.entries(obj.otherRegistration).map(([key, value]) => {
+                return <RenderRow key={key} title={key} value={value} />;
+              })}
+            </Stack>
+          </Box>
 
-        <Box>
-          <Title order={6}>Supplies and Services</Title>
-          <Stack mt="xs" gap="xs">
-            {Object.entries(obj.suppliesAndServices).map(([key, value]) => {
-              return <RenderRow key={key} title={key} value={value} />;
-            })}
-          </Stack>
-        </Box>
+          <Box>
+            <Title order={6}>Supplies and Services</Title>
+            <Stack mt="xs" gap="xs">
+              {Object.entries(obj.suppliesAndServices).map(([key, value]) => {
+                return <RenderRow key={key} title={key} value={value} />;
+              })}
+            </Stack>
+          </Box>
+        </SimpleGrid>
       </Stack>
-    </Box>
+    </Paper>
   );
 };
 

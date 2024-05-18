@@ -10,7 +10,7 @@ import {
   Stepper,
   Text,
   TextInput,
-  Title,
+  Title
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { IconCloudUpload } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ import PackageCard from "~/features/package/PackageCard";
 import {
   legalSuffixOptions,
   ontarioSchema,
-  stOntarioInitials,
+  stOntarioInitials
 } from "~/utils/schemas";
 
 const TOTAL_STEPS = 10;
@@ -56,11 +56,11 @@ export default function AlbertaCorporationRoute() {
 
   const form = useForm<typeof stOntarioInitials>({
     initialValues: {
-      ...stOntarioInitials,
+      ...stOntarioInitials
     },
 
     validate:
-      active !== totalSteps ? zodResolver(ontarioSchema[active]) : undefined,
+      active !== totalSteps ? zodResolver(ontarioSchema[active]) : undefined
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -76,8 +76,8 @@ export default function AlbertaCorporationRoute() {
 
   useEffect(() => {
     if (form.values.isBylawsAndMinuteBook === "YES") {
-      setTotalSteps(10);
-    } else setTotalSteps(9);
+      setTotalSteps(11);
+    } else setTotalSteps(10);
   }, [form.values.isBylawsAndMinuteBook]);
 
   return (
@@ -370,10 +370,10 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* Completed step */}
-          <Stepper.Completed>
+          {/* step - 11 */}
+          <Stepper.Step label="Cost Summary">
             <StOntarioStepComplete form={form} />
-          </Stepper.Completed>
+          </Stepper.Step>
         </Stepper>
 
         <Group justify="center" mt="xl">
@@ -408,8 +408,8 @@ export const ontarioPackages = [
       "NUANS/ Name approval",
       "Company key",
       "Business Number",
-      "Corporation Tax ID",
-    ],
+      "Corporation Tax ID"
+    ]
   },
   {
     id: "1ffb2517-71b8-4142-ab63-04bb6bbc1c5a",
@@ -424,8 +424,8 @@ export const ontarioPackages = [
       "Company key",
       "Business Number",
       "Corporation Tax ID",
-      "Link Business with CRA",
-    ],
+      "Link Business with CRA"
+    ]
   },
   {
     id: "83365464-4216-4f73-b3e1-55b2b72438eb",
@@ -442,7 +442,7 @@ export const ontarioPackages = [
       "Corporation Tax ID",
       "GST/HST Registration",
       "Link Business with CRA",
-      "Business Logo",
-    ],
-  },
+      "Business Logo"
+    ]
+  }
 ];
