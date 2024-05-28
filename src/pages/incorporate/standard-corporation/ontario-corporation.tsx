@@ -114,7 +114,7 @@ export default function AlbertaCorporationRoute() {
                     mt="xs"
                     label="Numbered (12345678 Canada Inc.)"
                   />
-                  <Radio value="named" my="xs" label="Named (ABCD Society)" />
+                  <Radio value="named" my="xs" label="Named (ABCD Corporation)" />
                 </Radio.Group>
 
                 {form.values.intentionOfCorporation === "named" && (
@@ -211,6 +211,13 @@ export default function AlbertaCorporationRoute() {
                     Corporation&apos;s Registered Address:
                   </Title>
                   <SimpleGrid cols={2}>
+                    <TextInput
+                      label="Province"
+                      {...form.getInputProps("corporation.province")}
+                      readOnly
+                      disabled
+                      value={"Ontario"}
+                    />
                     <TextInput
                       label="Street number & name"
                       {...form.getInputProps("corporation.address")}

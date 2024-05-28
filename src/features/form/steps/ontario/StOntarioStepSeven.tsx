@@ -182,7 +182,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
 
                 <Button
                   mt="lg"
-                  disabled={fields.length === 2}
+                  disabled={fields.length === 5}
                   leftSection={<IconPlus size={16} />}
                   onClick={() =>
                     form.insertListItem("stepSeven.invidualShareholder", {
@@ -205,5 +205,8 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
 export default StOntarioStepSeven;
 
 const textMap: { [key: number]: string } = {
-  1: "2nd Director's Information",
+  1: "2nd Shareholder's Information",
+  2: "3rd Shareholder's Information",
+  3: "4th Shareholder's Information",
+  4: "5th Shareholder's Information",
 };

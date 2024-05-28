@@ -161,6 +161,9 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
               />
             </Stack>
 
+            <Title mt="xl" mb="lg" order={6}>
+              OR
+            </Title>
             <Title mt="lg" order={6}>
               Corporation
             </Title>

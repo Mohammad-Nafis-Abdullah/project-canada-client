@@ -72,7 +72,11 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
   };
 
   return (
-    <Paper mt="xl" maw={960} mx="auto" shadow="lg" p="xl">
+    <>
+    <Title order={3} mt="xl" style={{
+      textAlign:"center"
+    }}>Price Summary</Title>
+    <Paper maw={960} mx="auto" shadow="lg" p="xl">
       <Stack gap="xs">
         <RenderRow
           title="Package"
@@ -114,6 +118,7 @@ const StOntarioStepComplete = ({ form }: StOntarioStepCompleteProps) => {
         </SimpleGrid>
       </Stack>
     </Paper>
+    </>
   );
 };
 

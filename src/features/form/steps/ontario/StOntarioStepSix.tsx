@@ -47,6 +47,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
         </Group>
       )}
       <Box>
+        <Title order={4} mb={"md"} mt={"lg"}>{`Officer's Information`}</Title>
         <SimpleGrid cols={2}>
           <TextInput
             label="First Name"
