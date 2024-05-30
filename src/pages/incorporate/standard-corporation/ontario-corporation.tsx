@@ -29,10 +29,8 @@ import {
   stOntarioInitials
 } from "~/utils/schemas";
 
-const TOTAL_STEPS = 10;
-
 export default function AlbertaCorporationRoute() {
-  const [totalSteps, setTotalSteps] = useState(9);
+  const [totalSteps, setTotalSteps] = useState(10);
 
   const [active, setActive] = useState(0);
   const [selectPackage, setSelectPackage] = useState<string>(
@@ -43,15 +41,13 @@ export default function AlbertaCorporationRoute() {
     setActive((current) => (current > 0 ? current - 1 : current));
   };
 
-  const handleStepChange = (nextStep: number) => {
-    const isOutOfBounds =
-      nextStep > totalSteps || form.validate().hasErrors || nextStep < 0;
-
-    if (isOutOfBounds) {
-      return;
-    }
-
-    setActive(nextStep);
+  const nextStep = () => {
+    setActive((current) => {
+      if (form.validate().hasErrors) {
+        return current;
+      }
+      return current < totalSteps ? current + 1 : current;
+    });
   };
 
   const form = useForm<typeof stOntarioInitials>({
@@ -60,7 +56,11 @@ export default function AlbertaCorporationRoute() {
     },
 
     validate:
-      active !== totalSteps ? zodResolver(ontarioSchema[active]) : undefined
+      totalSteps === 10 && active >= 6 && active <= 8
+        ? zodResolver(ontarioSchema[active + 1])
+        : active < totalSteps - 1
+        ? zodResolver(ontarioSchema[active])
+        : undefined
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -114,7 +114,11 @@ export default function AlbertaCorporationRoute() {
                     mt="xs"
                     label="Numbered (12345678 Canada Inc.)"
                   />
-                  <Radio value="named" my="xs" label="Named (ABCD Corporation)" />
+                  <Radio
+                    value="named"
+                    my="xs"
+                    label="Named (ABCD Corporation)"
+                  />
                 </Radio.Group>
 
                 {form.values.intentionOfCorporation === "named" && (
@@ -381,21 +385,22 @@ export default function AlbertaCorporationRoute() {
           <Stepper.Step label="Cost Summary">
             <StOntarioStepComplete form={form} />
           </Stepper.Step>
+
+          <Stepper.Completed>
+            <Group justify="center" mt="xl">
+              <Button type="submit">submit</Button>
+            </Group>
+          </Stepper.Completed>
         </Stepper>
 
         <Group justify="center" mt="xl">
-          <Button variant="default" onClick={handlePrevStep}>
-            Back
-          </Button>
-
-          {active !== totalSteps ? (
-            <Button onClick={() => handleStepChange(active + 1)} type="button">
-              Next Step
+          {active !== 0 && (
+            <Button variant="default" onClick={handlePrevStep}>
+              Back
             </Button>
-          ) : (
-            <Button onClick={() => handleStepChange(active + 1)} type="submit">
-              submit
-            </Button>
+          )}
+          {active !== totalSteps && (
+            <Button onClick={nextStep}>Next step</Button>
           )}
         </Group>
       </Box>

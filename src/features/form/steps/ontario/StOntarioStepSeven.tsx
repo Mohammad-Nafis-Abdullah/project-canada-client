@@ -10,12 +10,13 @@ import {
   Stack,
   Text,
   TextInput,
-  Title,
+  Title
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { IconCloudUpload, IconPlus, IconTrash } from "@tabler/icons-react";
 import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
+import { randomId } from "@mantine/hooks";
 
 type StOntarioStepSevenProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
@@ -188,6 +189,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                     form.insertListItem("stepSeven.invidualShareholder", {
                       ...stOntarioInitials["stepSeven"].invidualShareholder[0],
                       label: "Additional",
+                      key: randomId()
                     })
                   }
                 >
@@ -208,5 +210,5 @@ const textMap: { [key: number]: string } = {
   1: "2nd Shareholder's Information",
   2: "3rd Shareholder's Information",
   3: "4th Shareholder's Information",
-  4: "5th Shareholder's Information",
+  4: "5th Shareholder's Information"
 };

@@ -99,26 +99,26 @@ export const stOntarioInitials = {
 
   // step - 8
   craRegistration: {
-    gstHstReg: "No $0.00",
-    payrollReg: "No $0.00",
-    importExportReg: "No $0.00",
-    dividendAccReg: "No $0.00"
+    gstHstReg: "",
+    payrollReg: "",
+    importExportReg: "",
+    dividendAccReg: ""
   },
 
   // step - 9
   otherRegistration: {
-    initialReturn: "No $0.00",
-    wsib: "No $0.00",
-    domainReg: "No $0.00",
-    emailReg: "No $0.00"
+    initialReturn: "",
+    wsib: "",
+    domainReg: "",
+    emailReg: ""
   },
 
   // step - 10
   suppliesAndServices: {
-    corporateSeal: "No $0.00",
-    PhysicalMinuteBook: "No $0.00",
-    oneYearServiceSupport: "No $0.00",
-    annualReturn: "No $0.00"
+    corporateSeal: "",
+    PhysicalMinuteBook: "",
+    oneYearServiceSupport: "",
+    annualReturn: ""
   }
 };
 
@@ -223,28 +223,28 @@ const stepSevenSchema = z.object({
 
 const stepEightSchema = z.object({
   craRegistration: z.object({
-    gstHstReg: z.string(),
-    payrollReg: z.string(),
-    importExportReg: z.string(),
-    dividendAccReg: z.string()
+    gstHstReg: z.string().min(1, REQUIRED_ERROR),
+    payrollReg: z.string().min(1, REQUIRED_ERROR),
+    importExportReg: z.string().min(1, REQUIRED_ERROR),
+    dividendAccReg: z.string().min(1, REQUIRED_ERROR)
   })
 });
 
 const stepNineSchema = z.object({
   otherRegistration: z.object({
-    initialReturn: z.string(),
-    wsib: z.string(),
-    domainReg: z.string(),
-    emailReg: z.string()
+    initialReturn: z.string().min(1, REQUIRED_ERROR),
+    wsib: z.string().min(1, REQUIRED_ERROR),
+    domainReg: z.string().min(1, REQUIRED_ERROR),
+    emailReg: z.string().min(1, REQUIRED_ERROR)
   })
 });
 
 const stepTenSchema = z.object({
   suppliesAndServices: z.object({
-    corporateSeal: z.string(),
-    PhysicalMinuteBook: z.string(),
-    oneYearServiceSupport: z.string(),
-    annualReturn: z.string()
+    corporateSeal: z.string().min(1, REQUIRED_ERROR),
+    PhysicalMinuteBook: z.string().min(1, REQUIRED_ERROR),
+    oneYearServiceSupport: z.string().min(1, REQUIRED_ERROR),
+    annualReturn: z.string().min(1, REQUIRED_ERROR)
   })
 });
 
