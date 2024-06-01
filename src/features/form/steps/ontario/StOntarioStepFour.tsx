@@ -2,18 +2,34 @@ import {
   ActionIcon,
   Box,
   Button,
+  Flex,
   Group,
   Radio,
   Select,
   SimpleGrid,
   Stack,
+  Text,
   TextInput,
-  Title,
+  Title
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { residencyStatus, stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
+
+export const standardProvince = [
+  "Ontario Corporation",
+  "BC Corporation",
+  "Alberta Corporation",
+  "Federal Corporation",
+  "Quebec Corporation",
+  "SK Corporation",
+  "NB Corporation",
+  "Manitoba Corporation",
+  "NL Corporation",
+  "NS Corporation",
+  "PEI Corporation"
+];
 
 type StOntarioStepFourProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
@@ -24,7 +40,7 @@ const textMap: { [key: number]: string } = {
   2: "3rd",
   3: "4th",
   4: "5th",
-  5: "6th",
+  5: "6th"
 };
 
 const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
@@ -87,6 +103,30 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
             <Radio value="complete" my="xs" label="Provide complete address" />
           </Radio.Group>
 
+          {item.isCompleteAddress === "corporation" && (
+            <Box>
+              {Object.keys(form.values.corporation).map((corp) => {
+                const value =
+                  form.values.corporation[corp as keyof FormData["values"]];
+
+                const keyMap: { [key: string]: string } = {
+                  address: "Address",
+                  city: "City",
+                  postalCode: "Postal Code",
+                  apartment: "Appartment"
+                };
+                if (keyMap[corp as string] && value) {
+                  return (
+                    <Flex key={corp} align="center" gap="xs">
+                      <Title order={6}>{keyMap[corp as string]}:</Title>
+                      <Text size="md">{value}</Text>
+                    </Flex>
+                  );
+                }
+              })}
+            </Box>
+          )}
+
           {item.isCompleteAddress === "complete" && (
             <>
               <SimpleGrid cols={2}>
@@ -102,8 +142,11 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
                   label="City"
                   {...form.getInputProps(`directors.${index}.city`)}
                 />
-                <TextInput
+
+                <Select
                   label="Province"
+                  placeholder="Select one"
+                  data={standardProvince}
                   {...form.getInputProps(`directors.${index}.province`)}
                 />
                 <TextInput
@@ -127,7 +170,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
           </Radio.Group>
 
           <Radio.Group
-            label="Do you have more Incorporator ?"
+            label="Do you want to add more Incorporator ?"
             {...form.getInputProps(`directors.${index}.isHaveMoreIncorporator`)}
           >
             <Radio value="YES" mt="xs" label="Yes" />
@@ -200,7 +243,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
             onClick={() =>
               form.insertListItem("directors", {
                 ...stOntarioInitials["directors"][0],
-                label: "Additional",
+                label: "Additional"
               })
             }
           >

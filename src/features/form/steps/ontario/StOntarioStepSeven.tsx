@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   FileButton,
+  Flex,
   Group,
   NumberInput,
   Radio,
@@ -172,33 +173,62 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
             my="xs"
             label="I want to add individual shareholder."
           />
-
-          {form.values.stepSeven.shareholderOfCorporation === "individual" && (
-            <Box>
-              {fields.slice(0, 1)}
-
-              <Box mt="xl">
-                <Title order={4}>Additional Shareholder</Title>
-                {fields.slice(1)}
-
-                <Button
-                  mt="lg"
-                  disabled={fields.length === 5}
-                  leftSection={<IconPlus size={16} />}
-                  onClick={() =>
-                    form.insertListItem("stepSeven.invidualShareholder", {
-                      ...stOntarioInitials["stepSeven"].invidualShareholder[0],
-                      label: "Additional",
-                      key: randomId()
-                    })
-                  }
-                >
-                  Add more Shareholder
-                </Button>
-              </Box>
-            </Box>
-          )}
         </Radio.Group>
+
+        {form.values.stepSeven.shareholderOfCorporation === "all" && (
+          <Box>
+            {form.values.directors.map((dir) => {
+              return (
+                <Box key={dir.label}>
+                  <Title order={6}>{dir.label}</Title>
+
+                  {Object.keys(dir).map((el) => {
+                    const value = dir[el as keyof FormData["values"]];
+                    // if (el === "individual" || el === "corporation") return;
+                    if (!(directorKeyMap[el] && value)) return;
+                    return (
+                      <RenderInfo
+                        key={el}
+                        label={directorKeyMap[el]}
+                        value={dir[el as keyof FormData["values"]]}
+                      />
+                    );
+                  })}
+                  {/* 
+                  <RenderInfo label="First Name" value={dir.firstName} />
+                  <RenderInfo label="Middle Name" value={dir.middleName} />
+                  <RenderInfo label="Last Name" value={dir.lastName} /> */}
+                </Box>
+              );
+            })}
+          </Box>
+        )}
+
+        {form.values.stepSeven.shareholderOfCorporation === "individual" && (
+          <Box>
+            {fields.slice(0, 1)}
+
+            <Box mt="xl">
+              <Title order={4}>Additional Shareholder</Title>
+              {fields.slice(1)}
+
+              <Button
+                mt="lg"
+                disabled={fields.length === 5}
+                leftSection={<IconPlus size={16} />}
+                onClick={() =>
+                  form.insertListItem("stepSeven.invidualShareholder", {
+                    ...stOntarioInitials["stepSeven"].invidualShareholder[0],
+                    label: "Additional",
+                    key: randomId()
+                  })
+                }
+              >
+                Add more Shareholder
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Stack>
     </StepperFormLayout>
   );
@@ -212,3 +242,37 @@ const textMap: { [key: number]: string } = {
   3: "4th Shareholder's Information",
   4: "5th Shareholder's Information"
 };
+
+const directorKeyMap: { [key: string]: string } = {
+  firstName: "First Name",
+  middleName: "Middle Name",
+  lastName: "Last Name",
+  phone: "Phone Number",
+  email: "Email",
+  address: "Address",
+  city: "City",
+  postalCode: "Postal Code",
+  province: "Ontario Corporation",
+  suite: "Suite",
+  residencyStatus: "Residency Status"
+  // isDirectorAnIncorporator: "YES",
+  // isHaveMoreIncorporator: "YES"
+  // individual: {
+  //   firstName: "First Name",
+  //   middleName: "Middle Name",
+  //   lastName: "Last Name"
+  // },
+  // corporation: {
+  //   name: "Name",
+  //   ocn: "OCN"
+  // }
+};
+
+export function RenderInfo({ label, value }: { label: string; value: string }) {
+  return (
+    <Flex align="center" gap="xs">
+      <Title order={6}>{label}:</Title>
+      <Text size="md">{value}</Text>
+    </Flex>
+  );
+}

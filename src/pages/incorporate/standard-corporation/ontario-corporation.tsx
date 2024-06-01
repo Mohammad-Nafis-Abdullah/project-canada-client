@@ -19,7 +19,9 @@ import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
 import StOntarioStepComplete from "~/features/form/steps/ontario/StOntarioStepComplete";
 import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
-import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
+import StOntarioStepFour, {
+  standardProvince
+} from "~/features/form/steps/ontario/StOntarioStepFour";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
 import PackageCard from "~/features/package/PackageCard";
@@ -149,7 +151,7 @@ export default function AlbertaCorporationRoute() {
                       />
                     </Radio.Group>
 
-                    {form.values.haveNuansReport === "YES" ? (
+                    {form.values.haveNuansReport === "YES" && (
                       <Box>
                         <Text
                           component="label"
@@ -190,10 +192,6 @@ export default function AlbertaCorporationRoute() {
                           ))}
                         </SimpleGrid>
                       </Box>
-                    ) : (
-                      <Box>
-                        <Button>Payment for NUANS</Button>
-                      </Box>
                     )}
                   </>
                 )}
@@ -215,12 +213,11 @@ export default function AlbertaCorporationRoute() {
                     Corporation&apos;s Registered Address:
                   </Title>
                   <SimpleGrid cols={2}>
-                    <TextInput
+                    <Select
                       label="Province"
+                      placeholder="Select one"
+                      data={standardProvince}
                       {...form.getInputProps("corporation.province")}
-                      readOnly
-                      // disabled
-                      value={"Ontario"}
                     />
                     <TextInput
                       label="Street number & name"

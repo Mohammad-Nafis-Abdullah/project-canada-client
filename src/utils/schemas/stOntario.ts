@@ -22,6 +22,7 @@ export const stOntarioInitials = {
   // step - 3
   businessActivity: "",
   corporation: {
+    province: "Ontario Corporation",
     address: "",
     city: "",
     postalCode: "",
@@ -42,9 +43,8 @@ export const stOntarioInitials = {
       address: "",
       city: "",
       postalCode: "",
-      province: "Ontario",
+      province: "Ontario Corporation",
       suite: "",
-
       residencyStatus: "",
       isDirectorAnIncorporator: "YES",
       isHaveMoreIncorporator: "YES",
