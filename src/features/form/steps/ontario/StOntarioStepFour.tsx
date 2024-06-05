@@ -16,6 +16,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { residencyStatus, stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
+import { province } from "~/utils/const";
 
 export const standardProvince = [
   "Ontario Corporation",
@@ -146,7 +147,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
                 <Select
                   label="Province"
                   placeholder="Select one"
-                  data={standardProvince}
+                  data={province}
                   {...form.getInputProps(`directors.${index}.province`)}
                 />
                 <TextInput

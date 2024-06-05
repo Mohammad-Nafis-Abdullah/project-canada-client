@@ -25,6 +25,7 @@ import StOntarioStepFour, {
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
 import PackageCard from "~/features/package/PackageCard";
+import { province } from "~/utils/const";
 import {
   legalSuffixOptions,
   ontarioSchema,
@@ -213,12 +214,6 @@ export default function AlbertaCorporationRoute() {
                     Corporation&apos;s Registered Address:
                   </Title>
                   <SimpleGrid cols={2}>
-                    <Select
-                      label="Province"
-                      placeholder="Select one"
-                      data={standardProvince}
-                      {...form.getInputProps("corporation.province")}
-                    />
                     <TextInput
                       label="Street number & name"
                       {...form.getInputProps("corporation.address")}
@@ -230,6 +225,12 @@ export default function AlbertaCorporationRoute() {
                     <TextInput
                       label="City"
                       {...form.getInputProps("corporation.city")}
+                    />
+                    <Select
+                      label="Province"
+                      placeholder="Select one"
+                      data={province}
+                      {...form.getInputProps("corporation.province")}
                     />
                     <TextInput
                       label="Postal Code"

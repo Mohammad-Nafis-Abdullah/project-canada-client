@@ -34,7 +34,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
     <Box key={item.key + index}>
       {index > 0 && (
         <Group justify="space-between" align="center">
-          <Title order={6} mt="lg" mb="xs">
+          <Title order={6} mb={"xs"} mt={"xl"}>
             {textMap[index]} Officer&apos;s Information
           </Title>
           <ActionIcon
@@ -47,7 +47,7 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
         </Group>
       )}
       <Box>
-        <Title order={4} mb={"md"} mt={"lg"}>{`Officer's Information`}</Title>
+        {/* <Title order={4} mb={"md"} mt={"lg"}>{`Officer's Information`}</Title> */}
         <SimpleGrid cols={2}>
           <TextInput
             label="First Name"
