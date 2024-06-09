@@ -17,11 +17,12 @@ import { IconCloudUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
-import StOntarioStepComplete from "~/features/form/steps/ontario/StOntarioStepComplete";
+import StOntarioStepCost from "~/features/form/steps/ontario/StOntarioStepCost";
 import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
 import StOntarioStepFour, {
   standardProvince
 } from "~/features/form/steps/ontario/StOntarioStepFour";
+import StOntarioStepInfo from "~/features/form/steps/ontario/StOntarioStepInfo";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
 import StOntario_sharePrice from "~/features/form/steps/ontario/StOntario_sharePrice";
@@ -34,7 +35,7 @@ import {
 } from "~/utils/schemas";
 
 export default function AlbertaCorporationRoute() {
-  const [totalSteps, setTotalSteps] = useState(10);
+  const [totalSteps, setTotalSteps] = useState(11);
 
   const [active, setActive] = useState(0);
   const [selectPackage, setSelectPackage] = useState<string>(
@@ -59,6 +60,8 @@ export default function AlbertaCorporationRoute() {
       ...stOntarioInitials
     },
 
+    // validate: zodResolver(ontarioSchema[active]) || undefined
+
     validate:
       totalSteps === 10 && active >= 6 && active <= 8
         ? zodResolver(ontarioSchema[active + 1])
@@ -80,8 +83,8 @@ export default function AlbertaCorporationRoute() {
 
   useEffect(() => {
     if (form.values.isBylawsAndMinuteBook === "YES") {
-      setTotalSteps(11);
-    } else setTotalSteps(10);
+      setTotalSteps(12);
+    } else setTotalSteps(11);
   }, [form.values.isBylawsAndMinuteBook]);
 
   return (
@@ -114,9 +117,9 @@ export default function AlbertaCorporationRoute() {
                   {...form.getInputProps("intentionOfCorporation")}
                 >
                   <Radio
-                    value="numbered"
-                    mt="xs"
                     label="Numbered (12345678 Canada Inc.)"
+                    mt="xs"
+                    value="Numbered (12345678 Canada Inc.)"
                   />
                   <Radio
                     value="named"
@@ -129,17 +132,17 @@ export default function AlbertaCorporationRoute() {
                   <>
                     <TextInput
                       label="Proposed Business name"
-                      {...form.getInputProps("proposedBusinessName")}
+                      {...form.getInputProps("intent.proposedBusinessName")}
                     />
                     <Select
                       label="Select a legal suffix"
                       placeholder="Select one"
                       data={legalSuffixOptions}
-                      {...form.getInputProps("legalSuffix")}
+                      {...form.getInputProps("intent.legalSuffix")}
                     />
                     <Radio.Group
                       label="NUANS/Name Reservation Report"
-                      {...form.getInputProps("haveNuansReport")}
+                      {...form.getInputProps("intent.haveNuansReport")}
                     >
                       <Radio
                         value="YES"
@@ -153,7 +156,7 @@ export default function AlbertaCorporationRoute() {
                       />
                     </Radio.Group>
 
-                    {form.values.haveNuansReport === "YES" && (
+                    {form.values.intent.haveNuansReport === "YES" && (
                       <Box>
                         <Text
                           component="label"
@@ -167,7 +170,7 @@ export default function AlbertaCorporationRoute() {
                           accept=".docx, .doc, .pdf"
                           multiple
                           onChange={(files) => {
-                            form.setFieldValue("nuansReport", files);
+                            form.setFieldValue("intent.nuansReport", files);
                           }}
                         >
                           {(props) => (
@@ -187,7 +190,7 @@ export default function AlbertaCorporationRoute() {
                           </Text>
                         )}
                         <SimpleGrid cols={2} mt="sm" spacing={3}>
-                          {form.values.nuansReport.map((file, index) => (
+                          {form.values.intent.nuansReport.map((file, index) => (
                             <p key={index}>
                               {index + 1}. {file.name}
                             </p>
@@ -387,8 +390,13 @@ export default function AlbertaCorporationRoute() {
 
           {/* step - 12 */}
           <Stepper.Step label="Cost Summary">
-            <StOntarioStepComplete form={form} />
+            <StOntarioStepCost form={form} />
           </Stepper.Step>
+
+          {/* step - 13 */}
+          {/* <Stepper.Step label="Information Summary">
+            <StOntarioStepInfo form={form} />
+          </Stepper.Step> */}
 
           <Stepper.Completed>
             <Group justify="center" mt="xl">

@@ -154,16 +154,24 @@ const stepFourSchema = z.object({
 
 const stepFiveSchema = z.object({
   classAVotingPrice: z.string().min(1, REQUIRED_ERROR),
-  isIssueClassBVoting: z.enum(["YES", "NO"]),
-  isIssueClassCNonVoting: z.enum(["YES", "NO"])
+  isIssueClassBVoting: z.enum(["YES", "NO"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  }),
+  isIssueClassCNonVoting: z.enum(["YES", "NO"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  })
 });
 
 const stepSixSchema = z.object({
-  isPrimaryDirectorShareHolder: z.enum(["YES", "NO"])
+  isPrimaryDirectorShareHolder: z.enum(["YES", "NO"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  })
 });
 
 const stepSevenSchema = z.object({
-  isPrimaryDirectorOfficer: z.enum(["YES", "NO"])
+  isPrimaryDirectorOfficer: z.enum(["YES", "NO"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  })
 });
 
 export const albertaSchema: { [key: number]: ZodSchema } = {

@@ -13,11 +13,13 @@ export const stOntarioInitials = {
   packageId: "",
 
   // step - 2
-  intentionOfCorporation: "numbered",
-  proposedBusinessName: "",
-  legalSuffix: "",
-  haveNuansReport: "YES",
-  nuansReport: [] as File[],
+  intentionOfCorporation: "Numbered (12345678 Canada Inc.)",
+  intent: {
+    proposedBusinessName: "",
+    legalSuffix: "",
+    haveNuansReport: "YES",
+    nuansReport: [] as File[]
+  },
 
   // step - 3
   businessActivity: "",
@@ -62,6 +64,9 @@ export const stOntarioInitials = {
 
   // step - 5
   articleOfIncorporation: "",
+  rights: "Not Applicable",
+  restriction: "None",
+  otherProvisions: "None",
 
   // step - 6
   isBylawsAndMinuteBook: "",
@@ -76,13 +81,26 @@ export const stOntarioInitials = {
     }
   ],
 
-  initialSharePrice:"",
-  priceOfClassAvotingShare:"",
-  isClassBnonVotingShareIssued:"NO",
-  priceOfClassBnonVotingShare:"",
+  // share price for step - 5
+  sharePrice: {
+    initialSharePrice: "1.00",
+    priceOfClassAvotingShare: "1.00",
+    isClassBnonVotingShareIssued: "NO",
+    priceOfClassBnonVotingShare: "1.00",
+    numOfClassShare: "1",
+    shareClassDetails: [
+      {
+        key: randomId(),
+        class: "",
+        preference: "",
+        votingRights: "",
+        initialPrice: ""
+      }
+    ]
+  },
 
   // step - 7
-  stepSeven: {
+  share: {
     priceOfAShare: "",
     priceOfBShare: "",
     priceOfPerShare: 1,
@@ -97,6 +115,7 @@ export const stOntarioInitials = {
         middleName: "",
         lastName: "",
         address: "",
+        shareClass: "",
         numberOfShare: ""
       }
     ]
@@ -127,30 +146,36 @@ export const stOntarioInitials = {
   }
 };
 
-const stepOneSchema = z.object({
+const packageSchema = z.object({
   packageId: z.string().min(1, REQUIRED_ERROR)
 });
 
-const stepTwoSchema = z
-  .object({
-    intentionOfCorporation: z.enum(["numbered", "named"]),
+const intentSchema = z.object({
+  intentionOfCorporation: z.enum(["Numbered (12345678 Canada Inc.)", "named"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  }),
+
+  intent: z.object({
     proposedBusinessName: z.string(),
     legalSuffix: z.string().optional(),
-    haveNuansReport: z.enum(["YES", "NO"]).default("YES"),
+    haveNuansReport: z.enum(["YES", "NO"], {
+      errorMap: () => ({ message: REQUIRED_ERROR })
+    }),
     nuansReport: z.any().array()
   })
-  .refine(
-    (data) =>
-      data.intentionOfCorporation === "named"
-        ? data.proposedBusinessName.length > 0
-        : data.proposedBusinessName.length === 0,
-    {
-      message: REQUIRED_ERROR,
-      path: ["proposedBusinessName"]
-    }
-  );
+});
+// .refine(
+//   (data) =>
+//     data.intent.intentionOfCorporation === "named"
+//       ? data.intent.proposedBusinessName.length > 0
+//       : data.intent.proposedBusinessName.length === 0,
+//   {
+//     message: REQUIRED_ERROR,
+//     path: ["intent.proposedBusinessName"]
+//   }
+// );
 
-const stepThreeSchema = z.object({
+const businessActivitySchema = z.object({
   businessActivity: z.string(),
   corporation: z.object({
     address: z.string(),
@@ -160,7 +185,7 @@ const stepThreeSchema = z.object({
   })
 });
 
-const stepFourSchema = z.object({
+const directorSchema = z.object({
   directors: z.array(
     z.object({
       firstName: z.string(),
@@ -175,8 +200,12 @@ const stepFourSchema = z.object({
       postalCode: z.string(),
       email: z.string().max(0).or(z.string().email()),
       residencyStatus: z.string(),
-      isDirectorAnIncorporator: z.enum(["YES", "NO"]),
-      isHaveMoreIncorporator: z.enum(["YES", "NO"]),
+      isDirectorAnIncorporator: z.enum(["YES", "NO"], {
+        errorMap: () => ({ message: REQUIRED_ERROR })
+      }),
+      isHaveMoreIncorporator: z.enum(["YES", "NO"], {
+        errorMap: () => ({ message: REQUIRED_ERROR })
+      }),
       individual: z.object({
         firstName: z.string(),
         middleName: z.string(),
@@ -190,12 +219,28 @@ const stepFourSchema = z.object({
   )
 });
 
-const stepFiveSchema = z.object({
-  articleOfIncorporation: z.string()
+const articleSchema = z.object({
+  articleOfIncorporation: z.string().min(1, REQUIRED_ERROR),
+  rights: z.string().min(1, REQUIRED_ERROR),
+  restriction: z.string().min(1, REQUIRED_ERROR),
+  otherProvisions: z.string().min(1, REQUIRED_ERROR)
 });
 
-const stepSixSchema = z.object({
-  isBylawsAndMinuteBook: z.enum(["YES", "NO"]),
+const sharePriceSchema = z.object({
+  sharePrice: z.object({
+    initialSharePrice: z.string().min(1, REQUIRED_ERROR),
+    priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
+    isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
+      errorMap: () => ({ message: REQUIRED_ERROR })
+    }),
+    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR)
+  })
+});
+
+const minutebookSchema = z.object({
+  isBylawsAndMinuteBook: z.enum(["YES", "NO"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  }),
   officerOfCorporations: z.array(
     z.object({
       firstName: z.string(),
@@ -206,8 +251,8 @@ const stepSixSchema = z.object({
   )
 });
 
-const stepSevenSchema = z.object({
-  stepSeven: z.object({
+const shareSchema = z.object({
+  share: z.object({
     priceOfAShare: z.string(),
     priceOfBShare: z.string(),
     priceOfPerShare: z.number().int({ message: "Invalid number" }).min(1),
@@ -226,7 +271,7 @@ const stepSevenSchema = z.object({
   })
 });
 
-const stepEightSchema = z.object({
+const craRegSchema = z.object({
   craRegistration: z.object({
     gstHstReg: z.string().min(1, REQUIRED_ERROR),
     payrollReg: z.string().min(1, REQUIRED_ERROR),
@@ -235,7 +280,7 @@ const stepEightSchema = z.object({
   })
 });
 
-const stepNineSchema = z.object({
+const otherRegSchema = z.object({
   otherRegistration: z.object({
     initialReturn: z.string().min(1, REQUIRED_ERROR),
     wsib: z.string().min(1, REQUIRED_ERROR),
@@ -244,7 +289,7 @@ const stepNineSchema = z.object({
   })
 });
 
-const stepTenSchema = z.object({
+const suppliesAndServicesSchema = z.object({
   suppliesAndServices: z.object({
     corporateSeal: z.string().min(1, REQUIRED_ERROR),
     PhysicalMinuteBook: z.string().min(1, REQUIRED_ERROR),
@@ -254,14 +299,15 @@ const stepTenSchema = z.object({
 });
 
 export const ontarioSchema: { [key: number]: ZodSchema } = {
-  0: stepOneSchema,
-  1: stepTwoSchema,
-  2: stepThreeSchema,
-  3: stepFourSchema,
-  4: stepFiveSchema,
-  5: stepSixSchema,
-  6: stepSevenSchema,
-  7: stepEightSchema,
-  8: stepNineSchema,
-  9: stepTenSchema
+  0: packageSchema,
+  1: intentSchema,
+  2: businessActivitySchema,
+  3: directorSchema,
+  4: articleSchema,
+  5: minutebookSchema,
+  6: sharePriceSchema,
+  7: shareSchema,
+  8: craRegSchema,
+  9: otherRegSchema,
+  10: suppliesAndServicesSchema
 };

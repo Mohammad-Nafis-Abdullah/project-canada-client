@@ -24,63 +24,64 @@ type StOntarioStepSevenProps = {
 };
 
 const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
-  const fields = form.values.stepSeven.invidualShareholder.map(
-    (item, index) => (
-      <Box key={item.key}>
-        {index > 0 && (
-          <Group justify="space-between" align="center">
-            <Title order={6} mt="lg" mb="xs">
-              {textMap[index]}
-            </Title>
-            <ActionIcon
-              color="red"
-              variant="subtle"
-              onClick={() =>
-                form.removeListItem("stepSeven.invidualShareholder", index)
-              }
-            >
-              <IconTrash size="1rem" />
-            </ActionIcon>
-          </Group>
-        )}
+  const fields = form.values.share.invidualShareholder.map((item, index) => (
+    <Box key={item.key}>
+      {index > 0 && (
+        <Group justify="space-between" align="center">
+          <Title order={6} mt="lg" mb="xs">
+            {textMap[index]}
+          </Title>
+          <ActionIcon
+            color="red"
+            variant="subtle"
+            onClick={() =>
+              form.removeListItem("share.invidualShareholder", index)
+            }
+          >
+            <IconTrash size="1rem" />
+          </ActionIcon>
+        </Group>
+      )}
 
-        <SimpleGrid cols={2}>
-          <TextInput
-            label="First Name"
-            {...form.getInputProps(
-              `stepSeven.invidualShareholder.${index}.firstName`
-            )}
-          />
-          <TextInput
-            label="Middle Name"
-            {...form.getInputProps(
-              `stepSeven.invidualShareholder.${index}.middleName`
-            )}
-          />
-          <TextInput
-            label="Last Name"
-            {...form.getInputProps(
-              `stepSeven.invidualShareholder.${index}.lastName`
-            )}
-          />
+      <SimpleGrid cols={2}>
+        <TextInput
+          label="First Name"
+          {...form.getInputProps(
+            `share.invidualShareholder.${index}.firstName`
+          )}
+        />
+        <TextInput
+          label="Middle Name"
+          {...form.getInputProps(
+            `share.invidualShareholder.${index}.middleName`
+          )}
+        />
+        <TextInput
+          label="Last Name"
+          {...form.getInputProps(`share.invidualShareholder.${index}.lastName`)}
+        />
 
-          <TextInput
-            label="Address"
-            description="Same as Organization address Or, Provide Complete Address"
-            {...form.getInputProps(
-              `stepSeven.invidualShareholder.${index}.address`
-            )}
-          />
-          <TextInput
-            label="Number of share"
-            {...form.getInputProps(
-              `stepSeven.invidualShareholder.${index}.numberOfShare`
-            )}
-          />
-        </SimpleGrid>
-      </Box>
-    )
-  );
+        <TextInput
+          label="Address"
+          description="Same as Organization address Or, Provide Complete Address"
+          {...form.getInputProps(`share.invidualShareholder.${index}.address`)}
+        />
+        <TextInput
+          label="Share Class"
+          {...form.getInputProps(
+            `share.invidualShareholder.${index}.shareClass`
+          )}
+        />
+
+        <TextInput
+          label="Number of share"
+          {...form.getInputProps(
+            `share.invidualShareholder.${index}.numberOfShare`
+          )}
+        />
+      </SimpleGrid>
+    </Box>
+  ));
 
   return (
     <StepperFormLayout>
@@ -89,7 +90,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           <>
             <NumberInput
               label="Price of per share"
-              {...form.getInputProps("stepSeven.priceOfPerShare")}
+              {...form.getInputProps("share.priceOfPerShare")}
             />
           </>
         )}
@@ -98,11 +99,11 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           <>
             <TextInput
               label="Price of Class A Share"
-              {...form.getInputProps("stepSeven.priceOfAShare")}
+              {...form.getInputProps("share.priceOfAShare")}
             />
             <TextInput
               label="Price of Class B Share"
-              {...form.getInputProps("stepSeven.priceOfBShare")}
+              {...form.getInputProps("share.priceOfBShare")}
             />
           </>
         )}
@@ -111,7 +112,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           <>
             <TextInput
               label="Custom Article text"
-              {...form.getInputProps("stepSeven.customArticleText")}
+              {...form.getInputProps("share.customArticleText")}
             />
 
             <Text size="lg">Or,</Text>
@@ -124,10 +125,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                 accept=".docx, .doc, .pdf"
                 multiple
                 onChange={(files) => {
-                  form.setFieldValue(
-                    "stepSeven.customArticleAttachment",
-                    files
-                  );
+                  form.setFieldValue("share.customArticleAttachment", files);
                 }}
               >
                 {(props) => (
@@ -147,7 +145,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                 </Text>
               )}
               <SimpleGrid cols={2} mt="sm" spacing={3}>
-                {form.values.stepSeven.customArticleAttachment.map(
+                {form.values.share.customArticleAttachment.map(
                   (file, index) => (
                     <p key={index}>
                       {index + 1}. {file.name}
@@ -161,7 +159,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
 
         <Radio.Group
           label="Shareholder of Corporation"
-          {...form.getInputProps("stepSeven.shareholderOfCorporation")}
+          {...form.getInputProps("share.shareholderOfCorporation")}
         >
           <Radio
             value="all"
@@ -175,7 +173,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           />
         </Radio.Group>
 
-        {form.values.stepSeven.shareholderOfCorporation === "all" && (
+        {form.values.share.shareholderOfCorporation === "all" && (
           <Box>
             {form.values.directors.map((dir) => {
               return (
@@ -204,7 +202,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
           </Box>
         )}
 
-        {form.values.stepSeven.shareholderOfCorporation === "individual" && (
+        {form.values.share.shareholderOfCorporation === "individual" && (
           <Box>
             {fields.slice(0, 1)}
 
@@ -217,8 +215,8 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
                 disabled={fields.length === 5}
                 leftSection={<IconPlus size={16} />}
                 onClick={() =>
-                  form.insertListItem("stepSeven.invidualShareholder", {
-                    ...stOntarioInitials["stepSeven"].invidualShareholder[0],
+                  form.insertListItem("share.invidualShareholder", {
+                    ...stOntarioInitials["share"].invidualShareholder[0],
                     label: "Additional",
                     key: randomId()
                   })
