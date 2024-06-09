@@ -24,6 +24,7 @@ import StOntarioStepFour, {
 } from "~/features/form/steps/ontario/StOntarioStepFour";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
+import StOntario_sharePrice from "~/features/form/steps/ontario/StOntario_sharePrice";
 import PackageCard from "~/features/package/PackageCard";
 import { province } from "~/utils/const";
 import {
@@ -258,13 +259,18 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           {/* step - 7 */}
+          <Stepper.Step label="Share Price">
+            <StOntario_sharePrice form={form} />
+          </Stepper.Step>
+
+          {/* step - 8 */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
               <StOntarioStepSeven form={form} />
             </Stepper.Step>
           )}
 
-          {/* step - 8 */}
+          {/* step - 9 */}
           <Stepper.Step label="CRA Registration">
             <StepperFormLayout>
               <Radio.Group
@@ -301,7 +307,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 9 */}
+          {/* step - 10 */}
           <Stepper.Step label="Other Registration">
             <StepperFormLayout>
               <Radio.Group
@@ -338,7 +344,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 10 */}
+          {/* step - 11 */}
           <Stepper.Step label="Supplies & Services">
             <StepperFormLayout>
               <Radio.Group
@@ -379,7 +385,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 11 */}
+          {/* step - 12 */}
           <Stepper.Step label="Cost Summary">
             <StOntarioStepComplete form={form} />
           </Stepper.Step>

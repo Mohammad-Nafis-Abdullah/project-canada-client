@@ -76,6 +76,11 @@ export const stOntarioInitials = {
     }
   ],
 
+  initialSharePrice:"",
+  priceOfClassAvotingShare:"",
+  isClassBnonVotingShareIssued:"NO",
+  priceOfClassBnonVotingShare:"",
+
   // step - 7
   stepSeven: {
     priceOfAShare: "",
