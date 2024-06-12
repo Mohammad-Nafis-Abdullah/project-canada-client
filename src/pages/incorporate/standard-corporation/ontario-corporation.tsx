@@ -19,9 +19,7 @@ import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
 import StOntarioStepCost from "~/features/form/steps/ontario/StOntarioStepCost";
 import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
-import StOntarioStepFour, {
-  standardProvince
-} from "~/features/form/steps/ontario/StOntarioStepFour";
+import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
 import StOntarioStepInfo from "~/features/form/steps/ontario/StOntarioStepInfo";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
@@ -35,7 +33,7 @@ import {
 } from "~/utils/schemas";
 
 export default function AlbertaCorporationRoute() {
-  const [totalSteps, setTotalSteps] = useState(11);
+  const [totalSteps, setTotalSteps] = useState(12);
 
   const [active, setActive] = useState(0);
   const [selectPackage, setSelectPackage] = useState<string>(
@@ -63,9 +61,9 @@ export default function AlbertaCorporationRoute() {
     // validate: zodResolver(ontarioSchema[active]) || undefined
 
     validate:
-      totalSteps === 10 && active >= 6 && active <= 8
+      totalSteps === 12 && active >= 6 && active <= 8
         ? zodResolver(ontarioSchema[active + 1])
-        : active < totalSteps - 1
+        : active < totalSteps - 2
         ? zodResolver(ontarioSchema[active])
         : undefined
   });
@@ -83,9 +81,11 @@ export default function AlbertaCorporationRoute() {
 
   useEffect(() => {
     if (form.values.isBylawsAndMinuteBook === "YES") {
-      setTotalSteps(12);
-    } else setTotalSteps(11);
+      setTotalSteps(13);
+    } else setTotalSteps(12);
   }, [form.values.isBylawsAndMinuteBook]);
+
+  console.log(form.errors);
 
   return (
     <FormLayout name="Ontario Standard Corporation Form">
@@ -394,9 +394,9 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           {/* step - 13 */}
-          {/* <Stepper.Step label="Information Summary">
+          <Stepper.Step label="Information Summary">
             <StOntarioStepInfo form={form} />
-          </Stepper.Step> */}
+          </Stepper.Step>
 
           <Stepper.Completed>
             <Group justify="center" mt="xl">

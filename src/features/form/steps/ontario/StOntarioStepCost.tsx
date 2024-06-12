@@ -8,25 +8,11 @@ import {
   Title
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
+import { LABELMAP } from "~/lib/summaries/ontarioSummaries";
 import { ontarioPackages } from "~/pages/incorporate/standard-corporation/ontario-corporation";
 import { stOntarioInitials } from "~/utils/schemas";
 
-const labelMap: { [key: string]: string } = {
-  gstHstReg: "GST/HST Registration",
-  payrollReg: "Payroll Registration",
-  importExportReg: "Import/Export Registration",
-  dividendAccReg: "Dividend Account Registration",
-  initialReturn: "Initial Return",
-  wsib: "WSIB",
-  domainReg: "Domain Registration",
-  emailReg: "Email Registration",
-  corporateSeal: "Corporate Seal",
-  PhysicalMinuteBook: "Physical minute book",
-  oneYearServiceSupport: "One year service support",
-  annualReturn: "Annual Return"
-};
-
-function RenderRow({
+export function RenderRow({
   title,
   value
 }: {
@@ -36,7 +22,7 @@ function RenderRow({
   return (
     <Flex align="center" gap="xs">
       <Text size="md" style={{ fontWeight: 500 }}>
-        {labelMap[title] ? labelMap[title] : title}:
+        {LABELMAP[title] ? LABELMAP[title] : title}:
       </Text>
       <Text size="md" style={{ fontWeight: 800 }}>
         {value || 0}
@@ -55,19 +41,10 @@ const StOntarioStepCost = ({ form }: StOntarioStepCostProps) => {
   );
 
   const obj = {
+    ...form.values,
     package: {
       name: ontarioPkg?.name,
       price: ontarioPkg?.price
-    },
-    articleOfIncorporation: form.values.articleOfIncorporation,
-    craRegistration: {
-      ...form.values.craRegistration
-    },
-    otherRegistration: {
-      ...form.values.otherRegistration
-    },
-    suppliesAndServices: {
-      ...form.values.suppliesAndServices
     }
   };
 

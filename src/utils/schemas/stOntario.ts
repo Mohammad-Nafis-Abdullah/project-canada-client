@@ -17,7 +17,7 @@ export const stOntarioInitials = {
   intent: {
     proposedBusinessName: "",
     legalSuffix: "",
-    haveNuansReport: "YES",
+    haveNuansReport: "NO",
     nuansReport: [] as File[]
   },
 
@@ -48,8 +48,8 @@ export const stOntarioInitials = {
       province: "Ontario Corporation",
       suite: "",
       residencyStatus: "",
-      isDirectorAnIncorporator: "YES",
-      isHaveMoreIncorporator: "YES",
+      isDirectorAnIncorporator: "NO",
+      isHaveMoreIncorporator: "NO",
       individual: {
         firstName: "",
         middleName: "",
@@ -91,10 +91,10 @@ export const stOntarioInitials = {
     shareClassDetails: [
       {
         key: randomId(),
-        class: "",
-        preference: "",
-        votingRights: "",
-        initialPrice: ""
+        class: "Class A",
+        preference: "Common",
+        votingRights: "Voting",
+        initialPrice: "1.00"
       }
     ]
   },
@@ -150,30 +150,34 @@ const packageSchema = z.object({
   packageId: z.string().min(1, REQUIRED_ERROR)
 });
 
-const intentSchema = z.object({
-  intentionOfCorporation: z.enum(["Numbered (12345678 Canada Inc.)", "named"], {
-    errorMap: () => ({ message: REQUIRED_ERROR })
-  }),
+const intentSchema = z
+  .object({
+    intentionOfCorporation: z.enum(
+      ["Numbered (12345678 Canada Inc.)", "named"],
+      {
+        errorMap: () => ({ message: REQUIRED_ERROR })
+      }
+    ),
 
-  intent: z.object({
-    proposedBusinessName: z.string(),
-    legalSuffix: z.string().optional(),
-    haveNuansReport: z.enum(["YES", "NO"], {
-      errorMap: () => ({ message: REQUIRED_ERROR })
-    }),
-    nuansReport: z.any().array()
+    intent: z.object({
+      proposedBusinessName: z.string(),
+      legalSuffix: z.string().optional(),
+      haveNuansReport: z.enum(["YES", "NO"], {
+        errorMap: () => ({ message: REQUIRED_ERROR })
+      }),
+      nuansReport: z.any().array()
+    })
   })
-});
-// .refine(
-//   (data) =>
-//     data.intent.intentionOfCorporation === "named"
-//       ? data.intent.proposedBusinessName.length > 0
-//       : data.intent.proposedBusinessName.length === 0,
-//   {
-//     message: REQUIRED_ERROR,
-//     path: ["intent.proposedBusinessName"]
-//   }
-// );
+  .refine(
+    (data) =>
+      data.intentionOfCorporation === "named"
+        ? data.intent.proposedBusinessName.length > 0
+        : data.intent.proposedBusinessName.length === 0,
+    {
+      message: REQUIRED_ERROR,
+      path: ["intent.proposedBusinessName"]
+    }
+  );
 
 const businessActivitySchema = z.object({
   businessActivity: z.string(),
@@ -181,7 +185,8 @@ const businessActivitySchema = z.object({
     address: z.string(),
     city: z.string(),
     postalCode: z.string(),
-    apartment: z.string()
+    apartment: z.string(),
+    province: z.string()
   })
 });
 
@@ -233,7 +238,16 @@ const sharePriceSchema = z.object({
     isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
       errorMap: () => ({ message: REQUIRED_ERROR })
     }),
-    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR)
+    numOfClassShare: z.string().min(1),
+    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
+    shareClassDetails: z.array(
+      z.object({
+        class: z.string().min(1),
+        preference: z.string().min(1),
+        votingRights: z.string().min(1),
+        initialPrice: z.string().min(1)
+      })
+    )
   })
 });
 
@@ -265,6 +279,7 @@ const shareSchema = z.object({
         middleName: z.string(),
         lastName: z.string(),
         address: z.string(),
+        shareClass: z.string(),
         numberOfShare: z.string()
       })
     )

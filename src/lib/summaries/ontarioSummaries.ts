@@ -1,38 +1,58 @@
-import { UseFormReturnType } from "@mantine/form";
-import { ontarioPackages } from "~/pages/incorporate/standard-corporation/ontario-corporation";
-import { stOntarioInitials } from "~/utils/schemas";
+export const LABELMAP: { [key: string]: any } = {
+  directors: "Directors",
+  officerOfCorporations: "Office of Corporation",
+  businessActivity: "Business Activity",
+  province: "Province",
+  address: "Address",
+  city: "City",
+  postalCode: "Postal Code",
+  apartment: "Appartment",
 
-export function ontarioSummaries(
-  form: UseFormReturnType<typeof stOntarioInitials>
-) {
-  const ontarioPkg = ontarioPackages.find(
-    (item) => item.id === form.values.packageId
-  );
+  firstName: "First Name",
+  middleName: "Middle Name",
+  lastName: "Last Name",
+  designation: "Designation",
+  phone: "Phone",
+  email: "Email",
+  suite: "Suite",
+  residencyStatus: "Residency Status",
+  name: "Name",
+  ocn: "OCN",
+  articleOfIncorporation: "Article of Incorporation",
+  rights: "Rights",
+  restriction: "Restriction",
+  otherProvisions: "Other Provisions",
+  intentionOfCorporation: "Intention of corporation",
 
-  let intentionOfCorporation = null;
-  if (form.values.intentionOfCorporation === "named") {
-    intentionOfCorporation = Object.keys(form.values.intent).map((_) => {
-      return {
-        "Proposed Business Name": form.values.intent["proposedBusinessName"]
-      };
-    });
-  }
+  initialSharePrice: "Initial Share Price",
+  priceOfClassAvotingShare: "Price of Class A Voting Share",
+  priceOfClassBnonVotingShare: "Price of Class B Non Voting Share",
+  numOfClassShare: "Number of Class Share",
 
-  const obj = {
-    package: {
-      name: ontarioPkg?.name,
-      price: ontarioPkg?.price
-    },
+  class: "Share Class",
+  preference: "Share Preference",
+  votingRights: "Voting Rights",
+  initialPrice: "Initial Price",
 
-    articleOfIncorporation: form.values.articleOfIncorporation,
-    craRegistration: {
-      ...form.values.craRegistration
-    },
-    otherRegistration: {
-      ...form.values.otherRegistration
-    },
-    suppliesAndServices: {
-      ...form.values.suppliesAndServices
-    }
-  };
-}
+  priceOfAShare: "Price of A Share",
+  priceOfBShare: "Price of B Share",
+  priceOfPerShare: "Price of Per Share",
+  customArticleText: "Custom Article Text",
+  customArticleAttachment: "Custom Article Attachment",
+  shareholderOfCorporation: "Shareholder of Corporation",
+  shareClass: "Share Class",
+  numberOfShare: "Number of Share",
+
+  gstHstReg: "GST/HST Registration",
+  payrollReg: "Payroll Registration",
+  importExportReg: "Import/Export Registration",
+  dividendAccReg: "Dividend Account Registration",
+  initialReturn: "Initial Return",
+  wsib: "WSIB",
+  domainReg: "Domain Registration",
+  emailReg: "Email Registration",
+  corporateSeal: "Corporate Seal",
+  PhysicalMinuteBook: "Physical minute book",
+  oneYearServiceSupport: "One year service support",
+  annualReturn: "Annual Return"
+};
