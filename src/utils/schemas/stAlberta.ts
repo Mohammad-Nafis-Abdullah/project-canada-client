@@ -3,8 +3,8 @@ import { REQUIRED_ERROR } from "../errors";
 import { randomId } from "@mantine/hooks";
 
 export const legalSuffixOptions: [string, ...string[]] = [
-  "INC.",
-  "CORP.",
+  "Inc.",
+  "Corp.",
   "LTD.",
   "Incorporation",
   "CORPORATION",
