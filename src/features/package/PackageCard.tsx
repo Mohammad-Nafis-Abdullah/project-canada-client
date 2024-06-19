@@ -2,18 +2,19 @@ import { Button, Card, Flex, List, Text, rem } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import classes from "./package.module.css";
 import { Dispatch, SetStateAction } from "react";
+import {
+  TPackage,
+  ontarioPackages
+} from "~/pages/incorporate/standard-corporation/ontario-corporation";
 
-type PackageCardProps = {
-  id: string;
-  name: string;
-  price: string;
-  offers: string[];
-  selectPackage: string;
-  setSelectPackage: Dispatch<SetStateAction<string>>;
+type PackageCardProps = TPackage & {
+  selectPackage: TPackage;
+  setSelectPackage: Dispatch<SetStateAction<TPackage>>;
 };
 
 function PackageCard(props: PackageCardProps) {
-  const { id, name, price, offers, selectPackage, setSelectPackage } = props;
+  const { id, name, price, offers, selectPackage, setSelectPackage, code } =
+    props;
 
   return (
     <Card withBorder radius="md" p="md" className={classes.card}>
@@ -45,8 +46,11 @@ function PackageCard(props: PackageCardProps) {
         <Button
           fullWidth
           radius="md"
-          variant={selectPackage === id ? "filled" : "outline"}
-          onClick={() => setSelectPackage(id)}
+          variant={selectPackage.id === id ? "filled" : "outline"}
+          onClick={() => {
+            const ontarioPackage = ontarioPackages.find((el) => el.id === id);
+            if (ontarioPackage) setSelectPackage(ontarioPackage);
+          }}
         >
           Select
         </Button>

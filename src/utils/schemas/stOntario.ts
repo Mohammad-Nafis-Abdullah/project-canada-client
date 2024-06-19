@@ -146,11 +146,11 @@ export const stOntarioInitials = {
   }
 };
 
-const packageSchema = z.object({
+export const packageSchema = z.object({
   packageId: z.string().min(1, REQUIRED_ERROR)
 });
 
-const intentSchema = z
+export const intentSchema = z
   .object({
     intentionOfCorporation: z.enum(
       ["Numbered (12345678 Canada Inc.)", "named"],
@@ -179,7 +179,7 @@ const intentSchema = z
     }
   );
 
-const businessActivitySchema = z.object({
+export const businessActivitySchema = z.object({
   businessActivity: z.string(),
   corporation: z.object({
     address: z.string(),
@@ -190,7 +190,7 @@ const businessActivitySchema = z.object({
   })
 });
 
-const directorSchema = z.object({
+export const directorSchema = z.object({
   directors: z.array(
     z.object({
       firstName: z.string(),
@@ -224,34 +224,39 @@ const directorSchema = z.object({
   )
 });
 
-const articleSchema = z.object({
+export const articleSchema = z.object({
   articleOfIncorporation: z.string().min(1, REQUIRED_ERROR),
   rights: z.string().min(1, REQUIRED_ERROR),
   restriction: z.string().min(1, REQUIRED_ERROR),
   otherProvisions: z.string().min(1, REQUIRED_ERROR)
 });
 
-const sharePriceSchema = z.object({
-  sharePrice: z.object({
-    initialSharePrice: z.string().min(1, REQUIRED_ERROR),
-    priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
-    isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
-      errorMap: () => ({ message: REQUIRED_ERROR })
-    }),
-    numOfClassShare: z.string().min(1),
-    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
-    shareClassDetails: z.array(
-      z.object({
-        class: z.string().min(1),
-        preference: z.string().min(1),
-        votingRights: z.string().min(1),
-        initialPrice: z.string().min(1)
-      })
-    )
+export const sharePriceSchema = z
+  .object({
+    sharePrice: z.object({
+      initialSharePrice: z.string().min(1, REQUIRED_ERROR),
+      priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
+      isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
+        errorMap: () => ({ message: REQUIRED_ERROR })
+      }),
+      numOfClassShare: z.string().min(1),
+      priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
+      shareClassDetails: z.array(
+        z.object({
+          class: z.string().min(1),
+          preference: z.string().min(1),
+          votingRights: z.string().min(1),
+          initialPrice: z.string().min(1)
+        })
+      )
+    })
   })
-});
+  .refine((data) => data.sharePrice.isClassBnonVotingShareIssued === "YES", {
+    message: "Invalid",
+    path: ["sharePrice.isClassBnonVotingShareIssued"]
+  });
 
-const minutebookSchema = z.object({
+export const minutebookSchema = z.object({
   isBylawsAndMinuteBook: z.enum(["YES", "NO"], {
     errorMap: () => ({ message: REQUIRED_ERROR })
   }),
@@ -265,7 +270,7 @@ const minutebookSchema = z.object({
   )
 });
 
-const shareSchema = z.object({
+export const shareSchema = z.object({
   share: z.object({
     priceOfAShare: z.string(),
     priceOfBShare: z.string(),
@@ -286,7 +291,7 @@ const shareSchema = z.object({
   })
 });
 
-const craRegSchema = z.object({
+export const craRegSchema = z.object({
   craRegistration: z.object({
     gstHstReg: z.string().min(1, REQUIRED_ERROR),
     payrollReg: z.string().min(1, REQUIRED_ERROR),
@@ -295,7 +300,7 @@ const craRegSchema = z.object({
   })
 });
 
-const otherRegSchema = z.object({
+export const otherRegSchema = z.object({
   otherRegistration: z.object({
     initialReturn: z.string().min(1, REQUIRED_ERROR),
     wsib: z.string().min(1, REQUIRED_ERROR),
@@ -304,7 +309,7 @@ const otherRegSchema = z.object({
   })
 });
 
-const suppliesAndServicesSchema = z.object({
+export const suppliesAndServicesSchema = z.object({
   suppliesAndServices: z.object({
     corporateSeal: z.string().min(1, REQUIRED_ERROR),
     PhysicalMinuteBook: z.string().min(1, REQUIRED_ERROR),
@@ -313,16 +318,16 @@ const suppliesAndServicesSchema = z.object({
   })
 });
 
-export const ontarioSchema: { [key: number]: ZodSchema } = {
-  0: packageSchema,
-  1: intentSchema,
-  2: businessActivitySchema,
-  3: directorSchema,
-  4: articleSchema,
-  5: minutebookSchema,
-  6: sharePriceSchema,
-  7: shareSchema,
-  8: craRegSchema,
-  9: otherRegSchema,
-  10: suppliesAndServicesSchema
-};
+export const ontarioSchema = [
+  packageSchema,
+  intentSchema,
+  businessActivitySchema,
+  directorSchema,
+  articleSchema,
+  minutebookSchema,
+  sharePriceSchema,
+  shareSchema,
+  craRegSchema,
+  otherRegSchema,
+  suppliesAndServicesSchema
+];

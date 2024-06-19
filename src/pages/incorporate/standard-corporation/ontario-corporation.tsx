@@ -15,6 +15,7 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { IconCloudUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { ZodSchema } from "zod";
 import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
 import StOntarioStepCost from "~/features/form/steps/ontario/StOntarioStepCost";
@@ -29,15 +30,27 @@ import { province } from "~/utils/const";
 import {
   legalSuffixOptions,
   ontarioSchema,
+  otherRegSchema,
+  sharePriceSchema,
+  shareSchema,
   stOntarioInitials
 } from "~/utils/schemas";
 
+export type TPackage = {
+  id: string;
+  code: "essential" | "premium" | "ultimate";
+  name: string;
+  price: string;
+  offers: Array<string>;
+};
+
 export default function AlbertaCorporationRoute() {
   const [totalSteps, setTotalSteps] = useState(12);
+  const [schema, setSchema] = useState(ontarioSchema);
 
   const [active, setActive] = useState(0);
-  const [selectPackage, setSelectPackage] = useState<string>(
-    ontarioPackages[0].id
+  const [selectPackage, setSelectPackage] = useState<TPackage>(
+    ontarioPackages[0]
   );
 
   const handlePrevStep = () => {
@@ -58,14 +71,9 @@ export default function AlbertaCorporationRoute() {
       ...stOntarioInitials
     },
 
-    // validate: zodResolver(ontarioSchema[active]) || undefined
-
-    validate:
-      totalSteps === 12 && active >= 6 && active <= 8
-        ? zodResolver(ontarioSchema[active + 1])
-        : active < totalSteps - 2
-        ? zodResolver(ontarioSchema[active])
-        : undefined
+    validate: schema[active]
+      ? zodResolver(schema[active] as ZodSchema)
+      : undefined
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -74,18 +82,67 @@ export default function AlbertaCorporationRoute() {
 
   useEffect(() => {
     if (selectPackage) {
-      form.setFieldValue("packageId", selectPackage);
+      form.setFieldValue("packageId", selectPackage.id);
     }
     // eslint-disable-next-line
   }, [selectPackage]);
 
   useEffect(() => {
-    if (form.values.isBylawsAndMinuteBook === "YES") {
-      setTotalSteps(13);
-    } else setTotalSteps(12);
-  }, [form.values.isBylawsAndMinuteBook]);
+    if (selectPackage.code === "ultimate") {
+      if (
+        (totalSteps === 11 || totalSteps === 12) &&
+        (schema[8] === otherRegSchema || schema[9] === otherRegSchema)
+      ) {
+        const res = schema.filter((item) => item !== otherRegSchema);
+        setSchema(res);
+      }
+    } else {
+      if (totalSteps === 13 && active === 0) {
+        setSchema(ontarioSchema);
+      }
+    }
 
-  console.log(form.errors);
+    // eslint-disable-next-line
+  }, [active, totalSteps, form.values.isBylawsAndMinuteBook]);
+
+  useEffect(() => {
+    if (totalSteps <= 12 && schema[7] === shareSchema && active === 5) {
+      const allow = [shareSchema, sharePriceSchema];
+      // @ts-ignore
+      const res = schema.filter((item) => !allow.includes(item as ZodSchema));
+      setSchema(res);
+    } else {
+      if (totalSteps >= 12 && active === 5) {
+        setSchema(ontarioSchema);
+      }
+    }
+    // eslint-disable-next-line
+  }, [active, totalSteps]);
+
+  useEffect(() => {
+    if (active === 0) {
+      if (selectPackage.code === "ultimate") {
+        setTotalSteps(11);
+      } else {
+        setTotalSteps(12);
+      }
+    }
+  }, [selectPackage, active]);
+
+  useEffect(() => {
+    if (active === 5) {
+      if (form.values.isBylawsAndMinuteBook === "YES") {
+        if (selectPackage.code === "ultimate") {
+          setTotalSteps(12);
+        } else setTotalSteps(13);
+      } else {
+        if (selectPackage.code === "ultimate") {
+          setTotalSteps(10);
+        } else setTotalSteps(11);
+      }
+    }
+    // eslint-disable-next-line
+  }, [form.values.isBylawsAndMinuteBook, active]);
 
   return (
     <FormLayout name="Ontario Standard Corporation Form">
@@ -262,11 +319,14 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           {/* step - 7 */}
-          <Stepper.Step label="Share Price">
-            <StOntario_sharePrice form={form} />
-          </Stepper.Step>
 
           {/* step - 8 */}
+          {form.values.isBylawsAndMinuteBook === "YES" && (
+            <Stepper.Step label="Share Price">
+              <StOntario_sharePrice form={form} />
+            </Stepper.Step>
+          )}
+
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
               <StOntarioStepSeven form={form} />
@@ -311,41 +371,43 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           {/* step - 10 */}
-          <Stepper.Step label="Other Registration">
-            <StepperFormLayout>
-              <Radio.Group
-                label="Initial Return"
-                {...form.getInputProps("otherRegistration.initialReturn")}
-              >
-                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
+          {selectPackage.code !== "ultimate" && (
+            <Stepper.Step label="Other Registration">
+              <StepperFormLayout>
+                <Radio.Group
+                  label="Initial Return"
+                  {...form.getInputProps("otherRegistration.initialReturn")}
+                >
+                  <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                  <Radio value="No $0.00" my="xs" label="No $0.00" />
+                </Radio.Group>
 
-              <Radio.Group
-                label="WSIB"
-                {...form.getInputProps("otherRegistration.wsib")}
-              >
-                <Radio value="Yes $99.00" mt="xs" label="Yes $99.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
+                <Radio.Group
+                  label="WSIB"
+                  {...form.getInputProps("otherRegistration.wsib")}
+                >
+                  <Radio value="Yes $99.00" mt="xs" label="Yes $99.00" />
+                  <Radio value="No $0.00" my="xs" label="No $0.00" />
+                </Radio.Group>
 
-              <Radio.Group
-                label="Domain Registration"
-                {...form.getInputProps("otherRegistration.domainReg")}
-              >
-                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
+                <Radio.Group
+                  label="Domain Registration"
+                  {...form.getInputProps("otherRegistration.domainReg")}
+                >
+                  <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                  <Radio value="No $0.00" my="xs" label="No $0.00" />
+                </Radio.Group>
 
-              <Radio.Group
-                label="Email Registration"
-                {...form.getInputProps("otherRegistration.emailReg")}
-              >
-                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
-            </StepperFormLayout>
-          </Stepper.Step>
+                <Radio.Group
+                  label="Email Registration"
+                  {...form.getInputProps("otherRegistration.emailReg")}
+                >
+                  <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                  <Radio value="No $0.00" my="xs" label="No $0.00" />
+                </Radio.Group>
+              </StepperFormLayout>
+            </Stepper.Step>
+          )}
 
           {/* step - 11 */}
           <Stepper.Step label="Supplies & Services">
@@ -420,9 +482,10 @@ export default function AlbertaCorporationRoute() {
   );
 }
 
-export const ontarioPackages = [
+export const ontarioPackages: TPackage[] = [
   {
     id: "6c6e231d-99ad-464a-9247-0e26205a3047",
+    code: "essential",
     name: "Essential",
     price: "$399",
     offers: [
@@ -437,6 +500,7 @@ export const ontarioPackages = [
   },
   {
     id: "1ffb2517-71b8-4142-ab63-04bb6bbc1c5a",
+    code: "premium",
     name: "Premium",
     price: "$599",
     offers: [
@@ -453,6 +517,7 @@ export const ontarioPackages = [
   },
   {
     id: "83365464-4216-4f73-b3e1-55b2b72438eb",
+    code: "ultimate",
     name: "Ultimate",
     price: "$799",
     offers: [
