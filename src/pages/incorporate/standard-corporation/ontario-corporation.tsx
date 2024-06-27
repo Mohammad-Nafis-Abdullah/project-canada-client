@@ -320,14 +320,12 @@ export default function AlbertaCorporationRoute() {
           </Stepper.Step>
 
           {/* step - 7 */}
-
-          {/* step - 8 */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share Price">
               <StOntario_sharePrice form={form} />
             </Stepper.Step>
           )}
-
+          {/* step - 8 */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
               <StOntarioStepSeven form={form} />
@@ -475,10 +473,10 @@ export const ontarioPackages: TPackage[] = [
       "Article of incorporation",
       "Certificate of incorporation",
       "NUANS/ Name approval",
-      "Electronic Minute Book",
       "Company key",
       "Business Number",
       "Corporation Tax ID",
+      "Electronic Minute Book",
       "Link Business with CRA"
     ]
   },
@@ -492,12 +490,12 @@ export const ontarioPackages: TPackage[] = [
       "Article of incorporation",
       "Certificate of incorporation",
       "NUANS/ Name approval",
-      "Electronic & Physical By-Laws & Minute Book",
       "Company key",
       "Business Number",
       "Corporation Tax ID",
-      "GST/HST Registration",
+      "Electronic & Physical By-Laws & Minute Book",
       "Link Business with CRA",
+      "GST/HST Registration",
       "Business Logo"
     ]
   }

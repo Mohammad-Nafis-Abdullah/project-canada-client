@@ -40,8 +40,7 @@ const textMap: { [key: number]: string } = {
   1: "2nd",
   2: "3rd",
   3: "4th",
-  4: "5th",
-  5: "6th"
+  4: "5th"
 };
 
 const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
@@ -239,7 +238,7 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
 
           <Button
             mt="lg"
-            disabled={fields.length === 6}
+            disabled={fields.length === 5}
             leftSection={<IconPlus size={16} />}
             onClick={() =>
               form.insertListItem("directors", {
