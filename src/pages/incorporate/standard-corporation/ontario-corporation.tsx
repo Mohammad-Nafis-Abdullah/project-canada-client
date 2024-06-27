@@ -24,6 +24,7 @@ import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
 import StOntarioStepInfo from "~/features/form/steps/ontario/StOntarioStepInfo";
 import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
 import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
+import StOntarioSupplies from "~/features/form/steps/ontario/StOntarioSupplies";
 import StOntario_sharePrice from "~/features/form/steps/ontario/StOntario_sharePrice";
 import PackageCard from "~/features/package/PackageCard";
 import { province } from "~/utils/const";
@@ -336,13 +337,15 @@ export default function AlbertaCorporationRoute() {
           {/* step - 9 */}
           <Stepper.Step label="CRA Registration">
             <StepperFormLayout>
-              <Radio.Group
-                label="GST/HST Registration"
-                {...form.getInputProps("craRegistration.gstHstReg")}
-              >
-                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
+              {selectPackage.code !== "ultimate" && (
+                <Radio.Group
+                  label="GST/HST Registration"
+                  {...form.getInputProps("craRegistration.gstHstReg")}
+                >
+                  <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
+                  <Radio value="No $0.00" my="xs" label="No $0.00" />
+                </Radio.Group>
+              )}
 
               <Radio.Group
                 label="Payroll Registration"
@@ -411,43 +414,7 @@ export default function AlbertaCorporationRoute() {
 
           {/* step - 11 */}
           <Stepper.Step label="Supplies & Services">
-            <StepperFormLayout>
-              <Radio.Group
-                label="Corporate Seal"
-                {...form.getInputProps("suppliesAndServices.corporateSeal")}
-              >
-                <Radio value="Yes $39.00" mt="xs" label="Yes $39.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
-
-              <Radio.Group
-                label="Physical minute book"
-                {...form.getInputProps(
-                  "suppliesAndServices.PhysicalMinuteBook"
-                )}
-              >
-                <Radio value="Yes $49.00" mt="xs" label="Yes $49.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
-
-              <Radio.Group
-                label="One year Service support"
-                {...form.getInputProps(
-                  "suppliesAndServices.oneYearServiceSupport"
-                )}
-              >
-                <Radio value="Yes $99.00" mt="xs" label="Yes $99.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
-
-              <Radio.Group
-                label="Annual Return"
-                {...form.getInputProps("suppliesAndServices.annualReturn")}
-              >
-                <Radio value="Yes $149.00" mt="xs" label="Yes $149.00" />
-                <Radio value="No $0.00" my="xs" label="No $0.00" />
-              </Radio.Group>
-            </StepperFormLayout>
+            <StOntarioSupplies form={form} selectPackage={selectPackage} />
           </Stepper.Step>
 
           {/* step - 12 */}

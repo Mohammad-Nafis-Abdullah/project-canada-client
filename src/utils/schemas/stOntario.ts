@@ -231,30 +231,29 @@ export const articleSchema = z.object({
   otherProvisions: z.string().min(1, REQUIRED_ERROR)
 });
 
-export const sharePriceSchema = z
-  .object({
-    sharePrice: z.object({
-      initialSharePrice: z.string().min(1, REQUIRED_ERROR),
-      priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
-      isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
-        errorMap: () => ({ message: REQUIRED_ERROR })
-      }),
-      numOfClassShare: z.string().min(1),
-      priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
-      shareClassDetails: z.array(
-        z.object({
-          class: z.string().min(1),
-          preference: z.string().min(1),
-          votingRights: z.string().min(1),
-          initialPrice: z.string().min(1)
-        })
-      )
-    })
+export const sharePriceSchema = z.object({
+  sharePrice: z.object({
+    initialSharePrice: z.string().min(1, REQUIRED_ERROR),
+    priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
+    isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
+      errorMap: () => ({ message: REQUIRED_ERROR })
+    }),
+    numOfClassShare: z.string().min(1),
+    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
+    shareClassDetails: z.array(
+      z.object({
+        class: z.string().min(1),
+        preference: z.string().min(1),
+        votingRights: z.string().min(1),
+        initialPrice: z.string().min(1)
+      })
+    )
   })
-  .refine((data) => data.sharePrice.isClassBnonVotingShareIssued === "YES", {
-    message: "Invalid",
-    path: ["sharePrice.isClassBnonVotingShareIssued"]
-  });
+});
+// .refine((data) => data.sharePrice.isClassBnonVotingShareIssued === "YES", {
+//   message: "Invalid",
+//   path: ["sharePrice.isClassBnonVotingShareIssued"]
+// });
 
 export const minutebookSchema = z.object({
   isBylawsAndMinuteBook: z.enum(["YES", "NO"], {
@@ -293,7 +292,7 @@ export const shareSchema = z.object({
 
 export const craRegSchema = z.object({
   craRegistration: z.object({
-    gstHstReg: z.string().min(1, REQUIRED_ERROR),
+    gstHstReg: z.string(),
     payrollReg: z.string().min(1, REQUIRED_ERROR),
     importExportReg: z.string().min(1, REQUIRED_ERROR),
     dividendAccReg: z.string().min(1, REQUIRED_ERROR)
@@ -312,7 +311,7 @@ export const otherRegSchema = z.object({
 export const suppliesAndServicesSchema = z.object({
   suppliesAndServices: z.object({
     corporateSeal: z.string().min(1, REQUIRED_ERROR),
-    PhysicalMinuteBook: z.string().min(1, REQUIRED_ERROR),
+    PhysicalMinuteBook: z.string().nullable(),
     oneYearServiceSupport: z.string().min(1, REQUIRED_ERROR),
     annualReturn: z.string().min(1, REQUIRED_ERROR)
   })
