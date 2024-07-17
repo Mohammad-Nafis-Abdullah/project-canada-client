@@ -152,7 +152,7 @@ export default function AlbertaCorporationRoute() {
           Application for Ontario Corporation Registration
         </Title>
         <Stepper mt="lg" size="sm" active={active} color="primary">
-          {/* step - 1 */}
+          {/* step - Choose Package */}
           <Stepper.Step label="Choose Package">
             <SimpleGrid cols={3} spacing="sm" maw={1040} mx="auto">
               {ontarioPackages.map((item) => (
@@ -166,7 +166,7 @@ export default function AlbertaCorporationRoute() {
             </SimpleGrid>
           </Stepper.Step>
 
-          {/* step - 2 */}
+          {/* step - Intention */}
           <Stepper.Step label="Intention">
             <StepperFormLayout>
               <Stack gap="lg">
@@ -262,7 +262,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 3 */}
+          {/* step - Business Activity */}
           <Stepper.Step label="Business Activity">
             <StepperFormLayout>
               <Stack gap="lg">
@@ -304,35 +304,44 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 4 */}
+          {/* step - Director */}
           <Stepper.Step label="Director">
             <StOntarioStepFour form={form} />
           </Stepper.Step>
 
-          {/* step - 5 */}
+          {/* step - Article */}
           <Stepper.Step label="Article">
             <StOntarioStepFive form={form} />
           </Stepper.Step>
 
-          {/* step - 6 */}
+          {/* step - By Laws & Minute Book */}
           <Stepper.Step label="By Laws & Minute Book">
             <StOntarioStepSix form={form} />
           </Stepper.Step>
 
-          {/* step - 7 */}
+          {/* step - Ontario Mandatory Initial Return */}
+          <Stepper.Step label="Ontario Mandatory Initial Return">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione
+            nostrum, id recusandae officia modi voluptates unde excepturi. Ipsam
+            totam consectetur at inventore modi nulla? Quae corporis esse fugiat
+            perspiciatis unde.
+          </Stepper.Step>
+
+          {/* step - Share Price */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share Price">
               <StOntario_sharePrice form={form} />
             </Stepper.Step>
           )}
-          {/* step - 8 */}
+
+          {/* step - Share */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
               <StOntarioStepSeven form={form} />
             </Stepper.Step>
           )}
 
-          {/* step - 9 */}
+          {/* step - CRA Registration */}
           <Stepper.Step label="CRA Registration">
             <StepperFormLayout>
               {selectPackage.code !== "ultimate" && (
@@ -371,7 +380,7 @@ export default function AlbertaCorporationRoute() {
             </StepperFormLayout>
           </Stepper.Step>
 
-          {/* step - 10 */}
+          {/* step - Other Registration */}
           {selectPackage.code !== "ultimate" && (
             <Stepper.Step label="Other Registration">
               <StepperFormLayout>
@@ -410,17 +419,17 @@ export default function AlbertaCorporationRoute() {
             </Stepper.Step>
           )}
 
-          {/* step - 11 */}
+          {/* step - Supplies & Services */}
           <Stepper.Step label="Supplies & Services">
             <StOntarioSupplies form={form} selectPackage={selectPackage} />
           </Stepper.Step>
 
-          {/* step - 12 */}
+          {/* step - Cost Summary */}
           <Stepper.Step label="Cost Summary">
             <StOntarioStepCost form={form} />
           </Stepper.Step>
 
-          {/* step - 13 */}
+          {/* step - Information Summary */}
           <Stepper.Step label="Information Summary">
             <StOntarioStepInfo form={form} />
           </Stepper.Step>
