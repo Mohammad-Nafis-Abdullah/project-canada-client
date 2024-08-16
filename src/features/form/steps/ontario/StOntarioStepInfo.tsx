@@ -30,11 +30,11 @@ export const friendlyNames: Record<string, string> = {
   suite: "Suite",
   residencyStatus: "Residency Status",
   isDirectorAnIncorporator: "Is Director an Incorporator",
-  isHaveMoreIncorporator: "Have More Incorporator",
   individual: "Individual",
   corporation: "Corporation",
   name: "Name",
   ocn: "OCN",
+  incorporators: "Incorporators",
   articleOfIncorporation: "Article of Incorporation",
   rights: "Rights",
   restriction: "Restriction",
@@ -156,17 +156,6 @@ const StOntarioStepInfo = ({ form }: StOntarioStepInfoProps) => {
             "Legal Suffix": form.values.intent.legalSuffix
           };
   }
-
-  // @ts-ignore
-  rest.directors = rest.directors.map(({ label, key, ...item }) => {
-    if (item.isHaveMoreIncorporator === "NO") {
-      return {
-        ...item,
-        individual: null,
-        corporation: null
-      };
-    }
-  });
 
   if (form.values.sharePrice.isClassBnonVotingShareIssued === "NO") {
     form.values.sharePrice = {

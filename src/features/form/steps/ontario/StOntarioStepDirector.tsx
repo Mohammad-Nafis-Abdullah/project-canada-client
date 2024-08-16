@@ -32,7 +32,7 @@ export const standardProvince = [
   "PEI Corporation"
 ];
 
-type StOntarioStepFourProps = {
+type StOntarioStepDirectorProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
 
@@ -43,7 +43,7 @@ const textMap: { [key: number]: string } = {
   4: "5th"
 };
 
-const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
+const StOntarioStepDirector = ({ form }: StOntarioStepDirectorProps) => {
   const fields = form.values.directors.map((item, index) => (
     <Box key={item.key}>
       {index > 0 && (
@@ -161,67 +161,32 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
         <Stack mt="lg">
           <Radio.Group
             label="Is this director an Incorporator ?"
-            {...form.getInputProps(
-              `directors.${index}.isDirectorAnIncorporator`
-            )}
+            // {...form.getInputProps(
+            //   `directors.${index}.isDirectorAnIncorporator`
+            // )}
+            value={item.isDirectorAnIncorporator}
+            onChange={(value) => {
+              if (value === "YES") {
+                const { isDirectorAnIncorporator, ...rest } = item;
+                form.insertListItem("incorporators", {
+                  ...item,
+                  label:
+                    form.values.incorporators.length === 0
+                      ? "Primary"
+                      : "Additional"
+                });
+              }
+
+              form.setFieldValue(
+                `directors.${index}.isDirectorAnIncorporator`,
+                value
+              );
+            }}
           >
             <Radio value="YES" mt="xs" label="YES" />
             <Radio value="NO" my="xs" label="NO" />
           </Radio.Group>
-
-          <Radio.Group
-            label="Do you want to add more Incorporator ?"
-            {...form.getInputProps(`directors.${index}.isHaveMoreIncorporator`)}
-          >
-            <Radio value="YES" mt="xs" label="Yes" />
-            <Radio value="NO" my="xs" label="No" />
-          </Radio.Group>
         </Stack>
-
-        {item.isHaveMoreIncorporator === "YES" && (
-          <>
-            <Title mt="xl" order={6}>
-              Individual
-            </Title>
-            <Stack>
-              <TextInput
-                label="First Name"
-                {...form.getInputProps(
-                  `directors.${index}.individual.firstName`
-                )}
-              />
-              <TextInput
-                label="Middle Name"
-                {...form.getInputProps(
-                  `directors.${index}.individual.middleName`
-                )}
-              />
-              <TextInput
-                label="Last Name"
-                {...form.getInputProps(
-                  `directors.${index}.individual.lastName`
-                )}
-              />
-            </Stack>
-
-            <Title mt="xl" mb="lg" order={6}>
-              OR
-            </Title>
-            <Title mt="lg" order={6}>
-              Corporation
-            </Title>
-            <Stack>
-              <TextInput
-                label="Corporation Name"
-                {...form.getInputProps(`directors.${index}.corporation.name`)}
-              />
-              <TextInput
-                label="OCN(Ontario Corporation Number)"
-                {...form.getInputProps(`directors.${index}.corporation.ocn`)}
-              />
-            </Stack>
-          </>
-        )}
       </Box>
     </Box>
   ));
@@ -255,4 +220,4 @@ const StOntarioStepFour = ({ form }: StOntarioStepFourProps) => {
   );
 };
 
-export default StOntarioStepFour;
+export default StOntarioStepDirector;

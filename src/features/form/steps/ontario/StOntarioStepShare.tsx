@@ -19,11 +19,11 @@ import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
 import { randomId } from "@mantine/hooks";
 
-type StOntarioStepSevenProps = {
+type StOntarioStepShareProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
 
-const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
+const StOntarioStepShare = ({ form }: StOntarioStepShareProps) => {
   const fields = form.values.share.invidualShareholder.map((item, index) => (
     <Box key={item.key}>
       {index > 0 && (
@@ -232,7 +232,7 @@ const StOntarioStepSeven = ({ form }: StOntarioStepSevenProps) => {
   );
 };
 
-export default StOntarioStepSeven;
+export default StOntarioStepShare;
 
 const textMap: { [key: number]: string } = {
   1: "2nd Shareholder's Information",
@@ -253,17 +253,6 @@ const directorKeyMap: { [key: string]: string } = {
   province: "Ontario Corporation",
   suite: "Suite",
   residencyStatus: "Residency Status"
-  // isDirectorAnIncorporator: "YES",
-  // isHaveMoreIncorporator: "YES"
-  // individual: {
-  //   firstName: "First Name",
-  //   middleName: "Middle Name",
-  //   lastName: "Last Name"
-  // },
-  // corporation: {
-  //   name: "Name",
-  //   ocn: "OCN"
-  // }
 };
 
 export function RenderInfo({ label, value }: { label: string; value: string }) {

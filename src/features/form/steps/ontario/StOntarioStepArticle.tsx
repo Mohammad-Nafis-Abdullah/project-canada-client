@@ -11,11 +11,11 @@ import { UseFormReturnType } from "@mantine/form";
 import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
 
-type StOntarioStepFiveProps = {
+type StOntarioStepArticleProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
 
-const StOntarioStepFive = ({ form }: StOntarioStepFiveProps) => {
+const StOntarioStepArticle = ({ form }: StOntarioStepArticleProps) => {
   const articleOptions = [
     {
       label: "Standard. $0.00",
@@ -100,7 +100,7 @@ const StOntarioStepFive = ({ form }: StOntarioStepFiveProps) => {
   );
 };
 
-export default StOntarioStepFive;
+export default StOntarioStepArticle;
 
 const textMap: { [key: number]: string } = {
   1: "2nd Officer's Information"

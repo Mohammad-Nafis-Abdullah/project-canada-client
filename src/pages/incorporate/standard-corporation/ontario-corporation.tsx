@@ -3,6 +3,7 @@ import {
   Button,
   FileButton,
   Group,
+  Paper,
   Radio,
   Select,
   SimpleGrid,
@@ -15,25 +16,22 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { IconCloudUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { ZodSchema } from "zod";
 import FormLayout from "~/features/form/Layout";
 import StepperFormLayout from "~/features/form/StepperFormLayout";
+import StOntarioStepArticle from "~/features/form/steps/ontario/StOntarioStepArticle";
 import StOntarioStepCost from "~/features/form/steps/ontario/StOntarioStepCost";
-import StOntarioStepFive from "~/features/form/steps/ontario/StOntarioStepFive";
-import StOntarioStepFour from "~/features/form/steps/ontario/StOntarioStepFour";
+import StOntarioStepDirector from "~/features/form/steps/ontario/StOntarioStepDirector";
+import StOntarioStepIncorporate from "~/features/form/steps/ontario/StOntarioStepIncorporate";
 import StOntarioStepInfo from "~/features/form/steps/ontario/StOntarioStepInfo";
-import StOntarioStepSeven from "~/features/form/steps/ontario/StOntarioStepSeven";
-import StOntarioStepSix from "~/features/form/steps/ontario/StOntarioStepSix";
+import StOntarioStepMinuteBook from "~/features/form/steps/ontario/StOntarioStepMinuteBook";
+import StOntarioStepShare from "~/features/form/steps/ontario/StOntarioStepShare";
 import StOntarioSupplies from "~/features/form/steps/ontario/StOntarioSupplies";
 import StOntario_sharePrice from "~/features/form/steps/ontario/StOntario_sharePrice";
 import PackageCard from "~/features/package/PackageCard";
 import { province } from "~/utils/const";
 import {
   legalSuffixOptions,
-  ontarioSchema,
-  otherRegSchema,
-  sharePriceSchema,
-  shareSchema,
+  ontarioFormSchema,
   stOntarioInitials
 } from "~/utils/schemas";
 
@@ -46,8 +44,7 @@ export type TPackage = {
 };
 
 export default function AlbertaCorporationRoute() {
-  const [totalSteps, setTotalSteps] = useState(12);
-  const [schema, setSchema] = useState(ontarioSchema);
+  const [totalSteps, setTotalSteps] = useState(14);
 
   const [active, setActive] = useState(0);
   const [selectPackage, setSelectPackage] = useState<TPackage>(
@@ -72,9 +69,7 @@ export default function AlbertaCorporationRoute() {
       ...stOntarioInitials
     },
 
-    validate: schema[active]
-      ? zodResolver(schema[active] as ZodSchema)
-      : undefined
+    validate: zodResolver(ontarioFormSchema)
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -89,43 +84,11 @@ export default function AlbertaCorporationRoute() {
   }, [selectPackage]);
 
   useEffect(() => {
-    if (selectPackage.code === "ultimate") {
-      if (
-        (totalSteps === 11 || totalSteps === 12) &&
-        (schema[8] === otherRegSchema || schema[9] === otherRegSchema)
-      ) {
-        const res = schema.filter((item) => item !== otherRegSchema);
-        setSchema(res);
-      }
-    } else {
-      if (totalSteps === 13 && active === 0) {
-        setSchema(ontarioSchema);
-      }
-    }
-
-    // eslint-disable-next-line
-  }, [active, totalSteps, form.values.isBylawsAndMinuteBook]);
-
-  useEffect(() => {
-    if (totalSteps <= 12 && schema[7] === shareSchema && active === 5) {
-      const allow = [shareSchema, sharePriceSchema];
-      // @ts-ignore
-      const res = schema.filter((item) => !allow.includes(item as ZodSchema));
-      setSchema(res);
-    } else {
-      if (totalSteps >= 12 && active === 5) {
-        setSchema(ontarioSchema);
-      }
-    }
-    // eslint-disable-next-line
-  }, [active, totalSteps]);
-
-  useEffect(() => {
     if (active === 0) {
       if (selectPackage.code === "ultimate") {
-        setTotalSteps(11);
+        setTotalSteps(13);
       } else {
-        setTotalSteps(12);
+        setTotalSteps(14);
       }
     }
   }, [selectPackage, active]);
@@ -134,16 +97,18 @@ export default function AlbertaCorporationRoute() {
     if (active === 5) {
       if (form.values.isBylawsAndMinuteBook === "YES") {
         if (selectPackage.code === "ultimate") {
-          setTotalSteps(12);
-        } else setTotalSteps(13);
+          setTotalSteps(13);
+        } else setTotalSteps(14);
       } else {
         if (selectPackage.code === "ultimate") {
-          setTotalSteps(10);
-        } else setTotalSteps(11);
+          setTotalSteps(11);
+        } else setTotalSteps(12);
       }
     }
     // eslint-disable-next-line
   }, [form.values.isBylawsAndMinuteBook, active]);
+
+  console.log(form.errors);
 
   return (
     <FormLayout name="Ontario Standard Corporation Form">
@@ -306,25 +271,51 @@ export default function AlbertaCorporationRoute() {
 
           {/* step - Director */}
           <Stepper.Step label="Director">
-            <StOntarioStepFour form={form} />
+            <StOntarioStepDirector form={form} />
           </Stepper.Step>
 
           {/* step - Article */}
           <Stepper.Step label="Article">
-            <StOntarioStepFive form={form} />
+            <StOntarioStepArticle form={form} />
+          </Stepper.Step>
+
+          <Stepper.Step label="Incorporator">
+            <StOntarioStepIncorporate form={form} />
           </Stepper.Step>
 
           {/* step - By Laws & Minute Book */}
           <Stepper.Step label="By Laws & Minute Book">
-            <StOntarioStepSix form={form} />
+            <StOntarioStepMinuteBook form={form} />
           </Stepper.Step>
 
           {/* step - Ontario Mandatory Initial Return */}
           <Stepper.Step label="Ontario Mandatory Initial Return">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione
-            nostrum, id recusandae officia modi voluptates unde excepturi. Ipsam
-            totam consectetur at inventore modi nulla? Quae corporis esse fugiat
-            perspiciatis unde.
+            <Radio.Group
+              label="Do you want to file Initial Return"
+              {...form.getInputProps(
+                "mandatoryInitialReturn.wantToFileInitialReturn"
+              )}
+            >
+              <Radio mt="xs" label="Yes $79.00" value="Yes $79.00" />
+              <Radio my="xs" label="No $0.00" value="No $0.00" />
+            </Radio.Group>
+
+            {form.values.mandatoryInitialReturn.wantToFileInitialReturn ===
+              "No $0.00" && (
+              <Paper bg="#FFE9E9" p="lg">
+                <Title order={6} style={{ color: "#F34141", fontWeight: 600 }}>
+                  Why Initial Return mandatory in Ontario?
+                </Title>
+                <Text size="sm" mt="xs">
+                  <strong>Ans:</strong> All Ontario corporations, including
+                  business, not-for-profit, co-operative and other Ontario
+                  corporations must file an Initial Return under the CIA setting
+                  out the required information within 60 days after the date of
+                  incorporation, amalgamation or continuation into Ontario of
+                  the corporation.
+                </Text>
+              </Paper>
+            )}
           </Stepper.Step>
 
           {/* step - Share Price */}
@@ -337,7 +328,7 @@ export default function AlbertaCorporationRoute() {
           {/* step - Share */}
           {form.values.isBylawsAndMinuteBook === "YES" && (
             <Stepper.Step label="Share">
-              <StOntarioStepSeven form={form} />
+              <StOntarioStepShare form={form} />
             </Stepper.Step>
           )}
 

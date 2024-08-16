@@ -9,10 +9,8 @@ export const residencyStatus: [string, ...string[]] = [
 ];
 
 export const stOntarioInitials = {
-  // step - 1
   packageId: "",
 
-  // step - 2
   intentionOfCorporation: "Numbered (12345678 Canada Inc.)",
   intent: {
     proposedBusinessName: "",
@@ -21,7 +19,6 @@ export const stOntarioInitials = {
     nuansReport: [] as File[]
   },
 
-  // step - 3
   businessActivity: "",
   corporation: {
     province: "Ontario Corporation",
@@ -31,7 +28,6 @@ export const stOntarioInitials = {
     apartment: ""
   },
 
-  // step - 4
   directors: [
     {
       label: "Primary",
@@ -49,7 +45,6 @@ export const stOntarioInitials = {
       suite: "",
       residencyStatus: "",
       isDirectorAnIncorporator: "NO",
-      isHaveMoreIncorporator: "NO",
       individual: {
         firstName: "",
         middleName: "",
@@ -62,14 +57,14 @@ export const stOntarioInitials = {
     }
   ],
 
-  // step - 5
   articleOfIncorporation: "",
   rights: "Not Applicable",
   restriction: "None",
   otherProvisions: "None",
 
-  // step - 6
-  isBylawsAndMinuteBook: "",
+  incorporators: [],
+
+  isBylawsAndMinuteBook: "YES",
   officerOfCorporations: [
     {
       label: "Primary",
@@ -81,7 +76,10 @@ export const stOntarioInitials = {
     }
   ],
 
-  // share price for step - 5
+  mandatoryInitialReturn: {
+    wantToFileInitialReturn: "Yes $79.00"
+  },
+
   sharePrice: {
     initialSharePrice: "1.00",
     priceOfClassAvotingShare: "1.00",
@@ -99,7 +97,6 @@ export const stOntarioInitials = {
     ]
   },
 
-  // step - 7
   share: {
     priceOfAShare: "",
     priceOfBShare: "",
@@ -121,7 +118,6 @@ export const stOntarioInitials = {
     ]
   },
 
-  // step - 8
   craRegistration: {
     gstHstReg: "",
     payrollReg: "",
@@ -129,7 +125,6 @@ export const stOntarioInitials = {
     dividendAccReg: ""
   },
 
-  // step - 9
   otherRegistration: {
     initialReturn: "",
     wsib: "",
@@ -137,7 +132,6 @@ export const stOntarioInitials = {
     emailReg: ""
   },
 
-  // step - 10
   suppliesAndServices: {
     corporateSeal: "",
     PhysicalMinuteBook: "",
@@ -146,187 +140,164 @@ export const stOntarioInitials = {
   }
 };
 
-export const packageSchema = z.object({
-  packageId: z.string().min(1, REQUIRED_ERROR)
-});
+export const ontarioFormSchema = z.object({
+  packageId: z.string(),
 
-export const intentSchema = z
-  .object({
-    intentionOfCorporation: z.enum(
-      ["Numbered (12345678 Canada Inc.)", "named"],
-      {
-        errorMap: () => ({ message: REQUIRED_ERROR })
-      }
-    ),
+  intentionOfCorporation: z.enum(["Numbered (12345678 Canada Inc.)", "named"], {
+    errorMap: () => ({ message: REQUIRED_ERROR })
+  }),
 
-    intent: z.object({
-      proposedBusinessName: z.string(),
-      legalSuffix: z.string().optional(),
-      haveNuansReport: z.enum(["YES", "NO"], {
-        errorMap: () => ({ message: REQUIRED_ERROR })
-      }),
-      nuansReport: z.any().array()
-    })
-  })
-  .refine(
-    (data) =>
-      data.intentionOfCorporation === "named"
-        ? data.intent.proposedBusinessName.length > 0
-        : data.intent.proposedBusinessName.length === 0,
-    {
-      message: REQUIRED_ERROR,
-      path: ["intent.proposedBusinessName"]
-    }
-  );
+  intent: z.object({
+    proposedBusinessName: z.string().optional(),
+    legalSuffix: z.string().optional(),
+    haveNuansReport: z.enum(["YES", "NO"], {
+      errorMap: () => ({ message: REQUIRED_ERROR })
+    }),
+    nuansReport: z.any().array().optional()
+  }),
 
-export const businessActivitySchema = z.object({
-  businessActivity: z.string(),
+  businessActivity: z.string().optional(),
   corporation: z.object({
-    address: z.string(),
-    city: z.string(),
-    postalCode: z.string(),
-    apartment: z.string(),
-    province: z.string()
-  })
-});
+    address: z.string().optional(),
+    city: z.string().optional(),
+    postalCode: z.string().optional(),
+    apartment: z.string().optional(),
+    province: z.string().optional()
+  }),
 
-export const directorSchema = z.object({
   directors: z.array(
     z.object({
-      firstName: z.string(),
-      middleName: z.string(),
-      lastName: z.string(),
-      phone: z.string(),
-      isCompleteAddress: z.string(),
-      address: z.string(),
-      city: z.string(),
-      suite: z.string(),
-      province: z.string(),
-      postalCode: z.string(),
+      firstName: z.string().optional(),
+      middleName: z.string().optional(),
+      lastName: z.string().optional(),
+      phone: z.string().optional(),
+      isCompleteAddress: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      suite: z.string().optional(),
+      province: z.string().optional(),
+      postalCode: z.string().optional(),
       email: z.string().max(0).or(z.string().email()),
-      residencyStatus: z.string(),
+      residencyStatus: z.string().optional(),
       isDirectorAnIncorporator: z.enum(["YES", "NO"], {
         errorMap: () => ({ message: REQUIRED_ERROR })
       }),
-      isHaveMoreIncorporator: z.enum(["YES", "NO"], {
-        errorMap: () => ({ message: REQUIRED_ERROR })
-      }),
       individual: z.object({
-        firstName: z.string(),
-        middleName: z.string(),
-        lastName: z.string()
+        firstName: z.string().optional(),
+        middleName: z.string().optional(),
+        lastName: z.string().optional()
       }),
       corporation: z.object({
-        name: z.string(),
-        ocn: z.string()
+        name: z.string().optional(),
+        ocn: z.string().optional()
       })
     })
-  )
-});
+  ),
 
-export const articleSchema = z.object({
-  articleOfIncorporation: z.string().min(1, REQUIRED_ERROR),
-  rights: z.string().min(1, REQUIRED_ERROR),
-  restriction: z.string().min(1, REQUIRED_ERROR),
-  otherProvisions: z.string().min(1, REQUIRED_ERROR)
-});
+  incorporators: z.array(
+    z.object({
+      firstName: z.string().optional(),
+      middleName: z.string().optional(),
+      lastName: z.string().optional(),
+      phone: z.string().optional(),
+      isCompleteAddress: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      suite: z.string().optional(),
+      province: z.string().optional(),
+      postalCode: z.string().optional(),
+      email: z.string().max(0).or(z.string().email()),
+      residencyStatus: z.string().optional(),
+      individual: z.object({
+        firstName: z.string().optional(),
+        middleName: z.string().optional(),
+        lastName: z.string().optional()
+      }),
+      corporation: z.object({
+        name: z.string().optional(),
+        ocn: z.string().optional()
+      })
+    })
+  ),
 
-export const sharePriceSchema = z.object({
+  articleOfIncorporation: z.string().optional(),
+  rights: z.string().optional(),
+  restriction: z.string().optional(),
+  otherProvisions: z.string().optional(),
+
   sharePrice: z.object({
-    initialSharePrice: z.string().min(1, REQUIRED_ERROR),
-    priceOfClassAvotingShare: z.string().min(1, REQUIRED_ERROR),
+    initialSharePrice: z.string().optional(),
+    priceOfClassAvotingShare: z.string().optional(),
     isClassBnonVotingShareIssued: z.enum(["YES", "NO"], {
       errorMap: () => ({ message: REQUIRED_ERROR })
     }),
-    numOfClassShare: z.string().min(1),
-    priceOfClassBnonVotingShare: z.string().min(1, REQUIRED_ERROR),
+    numOfClassShare: z.string().optional(),
+    priceOfClassBnonVotingShare: z.string().optional(),
     shareClassDetails: z.array(
       z.object({
-        class: z.string().min(1),
-        preference: z.string().min(1),
-        votingRights: z.string().min(1),
-        initialPrice: z.string().min(1)
+        class: z.string().optional(),
+        preference: z.string().optional(),
+        votingRights: z.string().optional(),
+        initialPrice: z.string().optional()
       })
     )
-  })
-});
-// .refine((data) => data.sharePrice.isClassBnonVotingShareIssued === "YES", {
-//   message: "Invalid",
-//   path: ["sharePrice.isClassBnonVotingShareIssued"]
-// });
+  }),
 
-export const minutebookSchema = z.object({
   isBylawsAndMinuteBook: z.enum(["YES", "NO"], {
     errorMap: () => ({ message: REQUIRED_ERROR })
   }),
   officerOfCorporations: z.array(
     z.object({
-      firstName: z.string(),
-      middleName: z.string(),
-      lastName: z.string(),
-      designation: z.string()
+      firstName: z.string().optional(),
+      middleName: z.string().optional(),
+      lastName: z.string().optional(),
+      designation: z.string().optional()
     })
-  )
-});
+  ),
 
-export const shareSchema = z.object({
   share: z.object({
-    priceOfAShare: z.string(),
-    priceOfBShare: z.string(),
+    priceOfAShare: z.string().optional(),
+    priceOfBShare: z.string().optional(),
     priceOfPerShare: z.number().int({ message: "Invalid number" }).min(1),
-    customArticleText: z.string(),
-    customArticleAttachment: z.any().array(),
-    shareholderOfCorporation: z.string(),
+    customArticleText: z.string().optional(),
+    customArticleAttachment: z.any().array().optional(),
+    shareholderOfCorporation: z.string().optional(),
     invidualShareholder: z.array(
       z.object({
-        firstName: z.string(),
-        middleName: z.string(),
-        lastName: z.string(),
-        address: z.string(),
-        shareClass: z.string(),
-        numberOfShare: z.string()
+        firstName: z.string().optional(),
+        middleName: z.string().optional(),
+        lastName: z.string().optional(),
+        address: z.string().optional(),
+        shareClass: z.string().optional(),
+        numberOfShare: z.string().optional()
       })
     )
-  })
-});
+  }),
 
-export const craRegSchema = z.object({
   craRegistration: z.object({
-    gstHstReg: z.string(),
-    payrollReg: z.string().min(1, REQUIRED_ERROR),
-    importExportReg: z.string().min(1, REQUIRED_ERROR),
-    dividendAccReg: z.string().min(1, REQUIRED_ERROR)
-  })
-});
+    gstHstReg: z.string().optional(),
+    payrollReg: z.string().optional(),
+    importExportReg: z.string().optional(),
+    dividendAccReg: z.string().optional()
+  }),
 
-export const otherRegSchema = z.object({
   otherRegistration: z.object({
-    initialReturn: z.string().min(1, REQUIRED_ERROR),
-    wsib: z.string().min(1, REQUIRED_ERROR),
-    domainReg: z.string().min(1, REQUIRED_ERROR),
-    emailReg: z.string().min(1, REQUIRED_ERROR)
-  })
-});
+    initialReturn: z.string().optional(),
+    wsib: z.string().optional(),
+    domainReg: z.string().optional(),
+    emailReg: z.string().optional()
+  }),
 
-export const suppliesAndServicesSchema = z.object({
   suppliesAndServices: z.object({
-    corporateSeal: z.string().min(1, REQUIRED_ERROR),
-    PhysicalMinuteBook: z.string().nullable(),
-    oneYearServiceSupport: z.string().min(1, REQUIRED_ERROR),
-    annualReturn: z.string().min(1, REQUIRED_ERROR)
+    corporateSeal: z.string().optional(),
+    PhysicalMinuteBook: z.string().optional().nullable(),
+    oneYearServiceSupport: z.string().optional(),
+    annualReturn: z.string().optional()
+  }),
+
+  mandatoryInitialReturn: z.object({
+    wantToFileInitialReturn: z.enum(["Yes $79.00", "No $0.00"], {
+      errorMap: () => ({ message: REQUIRED_ERROR })
+    })
   })
 });
-
-export const ontarioSchema = [
-  packageSchema,
-  intentSchema,
-  businessActivitySchema,
-  directorSchema,
-  articleSchema,
-  minutebookSchema,
-  sharePriceSchema,
-  shareSchema,
-  craRegSchema,
-  otherRegSchema,
-  suppliesAndServicesSchema
-];

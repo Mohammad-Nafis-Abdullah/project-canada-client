@@ -5,10 +5,12 @@ import {
   Button,
   Group,
   List,
+  Paper,
   Radio,
   Select,
   SimpleGrid,
   Stack,
+  Text,
   TextInput,
   Title
 } from "@mantine/core";
@@ -17,7 +19,7 @@ import { IconInfoCircle, IconPlus, IconTrash } from "@tabler/icons-react";
 import { stOntarioInitials } from "~/utils/schemas";
 import StepperFormLayout from "../../StepperFormLayout";
 
-type StOntarioStepSixProps = {
+type StOntarioStepMinuteBookProps = {
   form: UseFormReturnType<typeof stOntarioInitials>;
 };
 
@@ -28,7 +30,7 @@ const textMap: { [key: number]: string } = {
   4: "5th"
 };
 
-const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
+const StOntarioStepMinuteBook = ({ form }: StOntarioStepMinuteBookProps) => {
   const fields = form.values.officerOfCorporations.map((item, index) => (
     <Box key={item.key + index}>
       {index > 0 && (
@@ -121,24 +123,26 @@ const StOntarioStepSix = ({ form }: StOntarioStepSixProps) => {
         )}
 
         {form.values.isBylawsAndMinuteBook === "NO" && (
-          <Alert
-            variant="light"
-            color="red"
-            title="ATTENTION"
-            icon={<IconInfoCircle />}
-          >
-            You&apos;re skipping the following information as you didn&apos;t
-            select MinuteBook & Bylaws.
-            <List listStyleType="decimal">
-              <List.Item>Shareholder(s)</List.Item>
-              <List.Item>Share Number(s) & Price(s)</List.Item>
-              <List.Item>Officer(s) & Officer(s) Designation</List.Item>
-            </List>
-          </Alert>
+          <>
+            <Alert
+              variant="light"
+              color="red"
+              title="ATTENTION"
+              icon={<IconInfoCircle />}
+            >
+              You&apos;re skipping the following information as you didn&apos;t
+              select MinuteBook & Bylaws.
+              <List listStyleType="decimal">
+                <List.Item>Shareholder(s)</List.Item>
+                <List.Item>Share Number(s) & Price(s)</List.Item>
+                <List.Item>Officer(s) & Officer(s) Designation</List.Item>
+              </List>
+            </Alert>
+          </>
         )}
       </Stack>
     </StepperFormLayout>
   );
 };
 
-export default StOntarioStepSix;
+export default StOntarioStepMinuteBook;
